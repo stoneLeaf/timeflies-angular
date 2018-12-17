@@ -57,8 +57,31 @@ typings/
 # dotenv environment variables file
 .env
 
-# next.js build output
-.next
-
 # VS Code settings
 .vscode/
+
+# compiled output
+/dist
+/tmp
+/out-tsc
+
+# profiling files
+chrome-profiler-events.json
+speed-measure-plugin.json
+
+# IDEs and editors
+/.idea
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# misc
+/.sass-cache
+/connect.lock
+/coverage
+/libpeerconnection.log
+testem.log
+/typings
