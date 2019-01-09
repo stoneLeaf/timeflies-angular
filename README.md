@@ -27,6 +27,7 @@ In the same fashion as with my [coding journey](https://github.com/stoneLeaf/cod
 
 1. [Tour of Cats](#tour-of-cats)
 2. [Minesweeper](#minesweeper)
+3. [Reporting for duty](#reporting-for-duty)
 
 ### Tour of Cats
 
@@ -43,6 +44,12 @@ As anticipated, I also had to design the layout with CSS, or more specifically [
 Each tile component encapsulating a tile object, my goal was then to bind properties of the latter to CSS classes of the former. For instance, when a tile was flagged by the user, the `flagged` property of the object was set to `true` and the `.flagged` class had to be applied to the component. I achieved this by using the `ngClass` directive which adds classes depending on evaluated conditions. The result for the aforementioned example was `[ngClass]="{'flagged': tile.flagged}"`. This system turned out to work perfectly and I was quite impressed with the tidiness of this solution.
 
 On a last note, I tried to find a use for [RxJS](https://rxjs-dev.firebaseapp.com/) as I wanted to get a glimpse of reactive programming. I ended up using `BehaviorSubject` observables to hold some values and made components react to changes emitted. In the end, I went a lot further than anticipated on this small intermediate [project](https://github.com/stoneLeaf/minesweeper-angular), and now feel a lot more prepared and eager for what's next.
+
+### Reporting for duty
+
+The first order of business was to design a draft of the logo. I felt like I needed that and a color scheme before anything else to help me get mental pictures of the layout. While I have no talent whatsoever in this area, I managed to make something workable. As intended all along, I used a play on the word 'flies' to get a basis for the logo.
+
+Regarding the general layout, which I had already sketched on plain old paper, I planned to have a full width navigation bar at the top, a content section with fixed width and a minimalist footer. While I intended to make it responsive and more elaborate at some point, the primary focus was to produce a basic and workable layout.
 
 ## License
 
