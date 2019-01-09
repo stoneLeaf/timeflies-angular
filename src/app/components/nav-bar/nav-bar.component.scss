@@ -1,0 +1,26 @@
+@import 'variables.scss';
+
+.nav-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1em;
+  height: 4em;
+  border-bottom: 1px solid lightgrey;
+}
+
+.nav-logo {
+  img {
+    display: block;
+    height: 2.5em;
+  }
+}
+
+.nav-items {
+  display: flex;
+  align-items: center;
+}
+
+.nav-item {
+  margin-left: 1em;
+}
