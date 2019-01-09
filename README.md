@@ -47,3 +47,5 @@ On a last note, I tried to find a use for [RxJS](https://rxjs-dev.firebaseapp.co
 ## License
 
 This project is under the [MIT license](LICENSE).
+The social icons are from [Simple Icons](https://github.com/simple-icons/simple-icons) and under [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/).
+All other graphics are by me and under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).

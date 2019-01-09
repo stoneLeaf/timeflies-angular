@@ -15,3 +15,17 @@ hr {
   justify-content: space-between;
   align-items: center;
 }
+
+.social-icons {
+  display: flex;
+  align-items: center;
+  img {
+    display: block;
+    opacity: 0.5;
+    padding-left: 0.4em;
+    height: 1.3em;
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
