@@ -1,0 +1,27 @@
+@import 'variables';
+
+.section {
+  padding: 4em 6em;
+  border-top: 0.07em solid grey;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  img {
+    height: 20em;
+    opacity: 1;
+  }
+}
+
+.section-text {
+  width: 50%;
+  text-align: justify;
+  font-size: 110%;
+  padding: 1em;
+}
+
+.clock-section {
+  background-color: lighten($secondary-color, 40%);
+  a {
+    font-size: 120%;
+  }
+}
