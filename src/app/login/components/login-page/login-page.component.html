@@ -1,3 +1,22 @@
-<p>
-  login-page works!
-</p>
+<div class="page-container">
+  <div class="logo-container">
+    <a routerLink="/"><img alt="Logo" src="/assets/images/logo_full.svg"></a>
+  </div>
+  <div class="form-container">
+    <h1>Log in</h1>
+    <form>
+      <div class="form-element">
+        <label for="">Email address</label>
+        <input type="text" id="email" autocomplete="off" spellcheck="false">
+      </div>
+      <div class="form-element">
+        <label for="">Password</label>
+        <input type="password" id="password">
+      </div>
+      <div class="form-element form-actions bottom-line">
+        <a routerLink="/">Forgot password?</a>
+        <button (click)="onSubmit()" class="button-primary">Log in</button>
+      </div>
+    </form>
+  </div>
+</div>

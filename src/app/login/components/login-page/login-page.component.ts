@@ -5,4 +5,9 @@ import { Component } from '@angular/core';
   templateUrl: './login-page.component.html',
   styleUrls: ['./login-page.component.scss']
 })
-export class LoginPageComponent { }
+export class LoginPageComponent {
+
+  onSubmit() {
+    // Not implemented
+  }
+}

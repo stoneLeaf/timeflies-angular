@@ -1,0 +1,26 @@
+.page-container {
+  padding: 2em 4em;
+  border-top: 0.07em solid grey;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.logo-container {
+  margin: 3em 0;
+  img {
+    height: 4em;
+  }
+}
+
+.form-container {
+  width: 30em;
+  border: 0.065em solid grey;
+  padding: 0.5em 2em;
+}
+
+.bottom-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
