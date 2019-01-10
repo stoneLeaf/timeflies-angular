@@ -28,6 +28,7 @@ In the same fashion as with my [coding journey](https://github.com/stoneLeaf/cod
 1. [Tour of Cats](#tour-of-cats)
 2. [Minesweeper](#minesweeper)
 3. [Reporting for duty](#reporting-for-duty)
+4. [Router entanglement](#router-entanglement)
 
 ### Tour of Cats
 
@@ -50,6 +51,14 @@ On a last note, I tried to find a use for [RxJS](https://rxjs-dev.firebaseapp.co
 The first order of business was to design a draft of the logo. I felt like I needed that and a color scheme before anything else to help me get mental pictures of the layout. While I have no talent whatsoever in this area, I managed to make something workable. As intended all along, I used a play on the word 'flies' to get a basis for the logo.
 
 Regarding the general layout, which I had already sketched on plain old paper, I planned to have a full width navigation bar at the top, a content section with fixed width and a minimalist footer. While I intended to make it responsive and more elaborate at some point, the primary focus was to produce a basic and workable layout.
+
+### Router entanglement
+
+Faithful to my long habit of adding complexity at early stages, I decided it was imperative that the layout for what I called the *lobby* area was different from the one for the logged in user interface. While I knew it would require some more advanced structural work, I figured it would simply translate in creating several [sub modules](https://angular.io/guide/module-types) with dedicated [companion routers](https://angular.io/api/router/RouterModule). The implementation, *of course*, turned out to be a lot more time consuming that I had anticipated.
+
+In the end it took me a few hours of frustration and failed attempts to achieve the end goal. I could not get my head around nested [router outlets](https://angular.io/api/router/RouterOutlet). It felt logic to have a global router outlet in my root component routed to a component from a sub module, which would contain another router outlet filled in turn by a sub router. In the end the solution was the `children` property of `Route`, of which I was aware from the beginning but that I had prematurely discarded due to a misconception. Thankfully, I had gained a better understanding of Angular routing in the process and was finally satisfied with the result.
+
+A significant benefit of that structure is that it allows [lazy loading](https://angular.io/guide/lazy-loading-ngmodules). Basically, modules can be loaded on a as-needed basis. For instance, a visitor could be able to swiftly load the lobby area without fetching right away the *supposed* heavy application interface. That feat was accomplished at the root router level, with the `loadChildren` property. At that stage it was obviously a bit early but I was glad I had encountered such an important feature.
 
 ## License
 
