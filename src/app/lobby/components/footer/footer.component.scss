@@ -1,0 +1,25 @@
+.footer {
+  padding: 1em 2em;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  border-top: 0.07em solid grey;
+}
+
+.text {
+  opacity: 0.7;
+}
+
+.social-icons {
+  display: flex;
+  align-items: center;
+  img {
+    display: block;
+    margin-left: 1em;
+    height: 2.7em;
+    opacity: 0.5;
+    &:hover {
+      opacity: 1;
+    }
+  }
+}

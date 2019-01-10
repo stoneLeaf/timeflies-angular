@@ -1,0 +1,26 @@
+@import 'variables';
+
+.nav-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2em;
+  height: 7em;
+}
+
+.nav-logo {
+  img {
+    display: block;
+    height: 4em;
+  }
+}
+
+.nav-items {
+  display: flex;
+  align-items: center;
+}
+
+.nav-item {
+  margin-left: 1.5em;
+  font-size: 110%;
+}

@@ -2,7 +2,7 @@
 
 /* Global styles */
 
-* {
+body {
   font-family: 'Roboto', Arial, sans-serif;
   padding: 0;
   margin: 0;
@@ -14,4 +14,28 @@ a {
   &:hover {
     text-decoration: underline;
   }
+}
+
+/* Buttons */
+
+@mixin button($color) {
+  border: 0.16em solid $color;
+  border-radius: 2em;
+  padding: 0.3em 1.2em;
+  text-shadow: 0 0.04em 0.04em #000000;
+  background-color: $color;
+  color: white;
+  text-decoration: none;
+  display: inline-block;
+  &:hover {
+    background-color: lighten($color, 15%);
+    text-decoration: none;
+  }
+}
+
+.button-primary {
+  @include button($primary-color);
+}
+.button-secondary {
+  @include button($secondary-color);
 }
