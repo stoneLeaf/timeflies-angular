@@ -2,21 +2,33 @@
   <div class="form-container">
     <h1>Sign up for free</h1>
     <h3>It will only take a few seconds.</h3>
-    <form>
+    <form #signupForm="ngForm">
       <div class="form-element">
-        <label for="">Name</label>
-        <input type="text" id="name" autocomplete="off" spellcheck="false">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" [(ngModel)]="user.name"
+               autocomplete="off" spellcheck="false" required #name="ngModel">
+        <div *ngIf="!name.valid && (!name.pristine || submitted)" class="form-validation-error">
+          Name is required.
+        </div>
       </div>
       <div class="form-element">
-        <label for="">Email address</label>
-        <input type="text" id="email" autocomplete="off" spellcheck="false">
+        <label for="email">Email address</label>
+        <input type="text" id="email" name="email" [(ngModel)]="user.email"
+               autocomplete="off" spellcheck="false" required #email="ngModel">
+        <div *ngIf="!email.valid && (!email.pristine || submitted)" class="form-validation-error">
+          Email is required.
+        </div>
       </div>
       <div class="form-element">
-        <label for="">Password</label>
-        <input type="password" id="password">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" [(ngModel)]="user.password"
+               required #password="ngModel">
+        <div *ngIf="!password.valid && (!password.pristine || submitted)" class="form-validation-error">
+          Password is required.
+        </div>
       </div>
       <div class="form-element form-actions">
-        <button (click)="onSubmit()" class="button-primary">Sign up</button>
+        <button (click)="onSubmit(signupForm)" [disabled]="waiting" class="button-primary">Sign up</button>
       </div>
     </form>
   </div>

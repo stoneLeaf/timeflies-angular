@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
+import { FormsModule } from '@angular/forms';
 
 import { LobbyRoutingModule } from './lobby-routing.module';
 
@@ -20,7 +20,8 @@ import { FooterComponent } from './components/footer/footer.component';
   ],
   imports: [
     CommonModule,
-    LobbyRoutingModule
+    LobbyRoutingModule,
+    FormsModule
   ]
 })
 export class LobbyModule { }
