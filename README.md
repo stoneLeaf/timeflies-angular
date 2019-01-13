@@ -18,7 +18,7 @@ This project requires [Node.js](https://nodejs.org/), [npm](https://www.npmjs.co
 
 - clone the repository
 - `npm install` to set up the required dependencies
-- edit config to set the base URL of the backend API (local or remote)
+- edit `src/environments/environment.ts` to set the base URL of the backend API (local or remote)
 - `ng serve` to run a dev server
 
 ## Development journal
@@ -29,6 +29,7 @@ In the same fashion as with my [coding journey](https://github.com/stoneLeaf/cod
 2. [Minesweeper](#minesweeper)
 3. [Reporting for duty](#reporting-for-duty)
 4. [Router entanglement](#router-entanglement)
+5. [First request](#first-request)
 
 ### Tour of Cats
 
@@ -59,6 +60,14 @@ Faithful to my long habit of adding complexity at early stages, I decided it was
 In the end it took me a few hours of frustration and failed attempts to achieve the end goal. I could not get my head around nested [router outlets](https://angular.io/api/router/RouterOutlet). It felt logic to have a global router outlet in my root component routed to a component from a sub module, which would contain another router outlet filled in turn by a sub router. In the end the solution was the `children` property of `Route`, of which I was aware from the beginning but that I had prematurely discarded due to a misconception. Thankfully, I had gained a better understanding of Angular routing in the process and was finally satisfied with the result.
 
 A significant benefit of that structure is that it allows [lazy loading](https://angular.io/guide/lazy-loading-ngmodules). Basically, modules can be loaded on a as-needed basis. For instance, a visitor could be able to swiftly load the lobby area without fetching right away the *supposed* heavy application interface. That feat was accomplished at the root router level, with the `loadChildren` property. At that stage it was obviously a bit early but I was glad I had encountered such an important feature.
+
+### First request
+
+I decided that the first step of the application implementation had to be the user signup. To this end, I needed, at the very least, a working form and a service making the HTTP requests to the backend. I had [already](#tour-of-cats) stumbled upon the [ngModel](https://angular.io/api/forms/NgModel) directive and planned to use it. I ended up creating an empty user model at component creation, binding its properties to the form inputs and POSTing the result on submission. Of course, the first request I made didn't work as my backend was not allowing [CORS](https://en.wikipedia.org/wiki/Cross-origin_resource_sharing). After a [quick commit](https://github.com/stoneLeaf/timeflies-backend/commit/7b29741ca808207a3dc3be256a32c8e03b851b04), I finally had the first successful request to the API.
+
+The back-end running locally, the requests were too fast to let me see style changes such as button deactivation on submission. I decided to add an [HttpInterceptor](https://angular.io/api/common/http/HttpInterceptor) which would delay all requests in order to simulate network latency. But I just couldn't make it work at first. I was adding it to the AppModule providers array on the condition that `environment.production` was `false`. And it turned out to be `true`, while [isDevMode()](https://angular.io/api/core/isDevMode) was also `true`, and I couldn't get my head around it. In the end, I found out that the auto-import feature of VS Code had imported `environment.prod` instead of `environment`, which was quite hard to spot at the end of the import line. Ironically, I ended up discarding the idea of an interceptor made for that purpose and used the more suited [network throttling capability of the Chrome DevTools](https://developers.google.com/web/tools/chrome-devtools/network-performance/reference#throttling).
+
+Many questions arose as I started to write the code handling the API responses. Some of them about [error handling](https://angular.io/guide/http#error-handling). It was obvious to me that it had to be done at the service level and never in the components. For that purpose, I created a specific handler for HTTP errors which was piped in with [catchError](https://rxjs-dev.firebaseapp.com/api/operators/catchError). One of the ideas was to create a `ValidationError` that would be passed to the components in case of a [422 status](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/422) and be processed to give feedback to the user. I thought about network issues too. One simple solution was to create a toast service to display short messages.
 
 ## License
 
