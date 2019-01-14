@@ -69,6 +69,8 @@ The back-end running locally, the requests were too fast to let me see style cha
 
 Many questions arose as I started to write the code handling the API responses. Some of them about [error handling](https://angular.io/guide/http#error-handling). It was obvious to me that it had to be done at the service level and never in the components. For that purpose, I created a specific handler for HTTP errors which was piped in with [catchError](https://rxjs-dev.firebaseapp.com/api/operators/catchError). One of the ideas was to create a `ValidationError` that would be passed to the components in case of a [422 status](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/422) and be processed to give feedback to the user. I thought about network issues too. One simple solution was to create a toast service to display short messages.
 
+Immediately after, the HTTP error handling had to be switched from a *wannabe* service to an [HttpInterceptor](https://angular.io/api/common/http/HttpInterceptor). In case the server response was 401 (unauthorized), I wanted the router to navigate to the login page. For that purpose, I simply added the router to the constructor to have it injected, but the router reference remained `undefined`. Then I remembered that I wasn't *directly* calling the error handler's singleton instance method but instead passing it as a function object to the `catchError` operator. With the interceptor, I was finally able to make the router call I needed and as a bonus my services became [drier](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself).
+
 ## License
 
 This project is under the [MIT license](LICENSE).
