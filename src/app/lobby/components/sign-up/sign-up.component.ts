@@ -16,6 +16,7 @@ export class SignUpComponent implements OnInit {
 
   submitted = false;
   waiting = false;
+  serverValidationError = '';
 
   constructor(private router: Router,
               private userService: UserService) { }
@@ -31,11 +32,12 @@ export class SignUpComponent implements OnInit {
       return;
     }
 
+    this.serverValidationError = '';
     this.waiting = true;
 
     this.userService.create(this.user)
                     .subscribe((user: User) => {
-                      // TODO: add toast
+                      // TODO: add toast, 'account created please log in'
                       this.router.navigate(['log_in']);
                     },
                     error => {
@@ -43,8 +45,7 @@ export class SignUpComponent implements OnInit {
                       // Client-side validation was not thorough enough,
                       // or server introduced new constraints
                       if (error instanceof ValidationError) {
-                        // TODO: implement
-                        // show server validation error somewhere in the form
+                        this.serverValidationError = error.message;
                       }
                       this.waiting = false;
                     });

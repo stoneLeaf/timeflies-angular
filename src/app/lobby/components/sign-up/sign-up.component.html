@@ -3,11 +3,16 @@
     <h1>Sign up for free</h1>
     <h3>It will only take a few seconds.</h3>
     <form #signupForm="ngForm">
+      <div *ngIf="serverValidationError" class="form-element">
+        <div class="form-error">
+          {{serverValidationError}}
+        </div>
+      </div>
       <div class="form-element">
         <label for="name">Name</label>
         <input type="text" id="name" name="name" [(ngModel)]="user.name"
                autocomplete="off" spellcheck="false" required #name="ngModel">
-        <div *ngIf="!name.valid && (!name.pristine || submitted)" class="form-validation-error">
+        <div *ngIf="!name.valid && (!name.pristine || submitted)" class="form-error">
           Name is required.
         </div>
       </div>
@@ -15,7 +20,7 @@
         <label for="email">Email address</label>
         <input type="text" id="email" name="email" [(ngModel)]="user.email"
                autocomplete="off" spellcheck="false" required #email="ngModel">
-        <div *ngIf="!email.valid && (!email.pristine || submitted)" class="form-validation-error">
+        <div *ngIf="!email.valid && (!email.pristine || submitted)" class="form-error">
           Email is required.
         </div>
       </div>
@@ -23,7 +28,7 @@
         <label for="password">Password</label>
         <input type="password" id="password" name="password" [(ngModel)]="user.password"
                required #password="ngModel">
-        <div *ngIf="!password.valid && (!password.pristine || submitted)" class="form-validation-error">
+        <div *ngIf="!password.valid && (!password.pristine || submitted)" class="form-error">
           Password is required.
         </div>
       </div>
