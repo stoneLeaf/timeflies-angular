@@ -4,18 +4,31 @@
   </div>
   <div class="form-container">
     <h1>Log in</h1>
-    <form>
+    <form #loginForm="ngForm">
+      <div *ngIf="badCredentials" class="form-element">
+        <div class="form-error">
+          Wrong email or password.
+        </div>
+      </div>
       <div class="form-element">
         <label for="">Email address</label>
-        <input type="text" id="email" autocomplete="off" spellcheck="false">
+        <input type="text" id="email" name="email" autocomplete="off" spellcheck="false"
+               required [(ngModel)]="credentials.email" #email="ngModel">
+        <div *ngIf="!email.valid && (!email.pristine || submitted)" class="form-error">
+          Email is required.
+        </div>
       </div>
       <div class="form-element">
         <label for="">Password</label>
-        <input type="password" id="password">
+        <input type="password" id="password" name="password"
+               required [(ngModel)]="credentials.password" #password="ngModel">
+        <div *ngIf="!password.valid && (!password.pristine || submitted)" class="form-error">
+          Password is required.
+        </div>
       </div>
       <div class="form-element form-actions bottom-line">
-        <a routerLink="/">Forgot password?</a>
-        <button (click)="onSubmit()" class="button-primary">Log in</button>
+        <a href="#">Forgot password?</a>
+        <button (click)="onSubmit(loginForm)" [disabled]="waiting" class="button-primary">Log in</button>
       </div>
     </form>
   </div>
