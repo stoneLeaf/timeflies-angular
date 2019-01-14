@@ -48,6 +48,7 @@ export class SignUpComponent implements OnInit {
                         this.serverValidationError = error.message;
                       }
                       this.waiting = false;
+                      signupForm.controls['password'].reset();
                     });
   }
 }
