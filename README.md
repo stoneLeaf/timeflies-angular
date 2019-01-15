@@ -76,6 +76,8 @@ Immediately after, the HTTP error handling had to be switched from a *wannabe* s
 
 Having implemented a [JWT](https://en.wikipedia.org/wiki/JSON_Web_Token) authentication scheme on the back-end, I needed to write the client-side part. To that purpose, the first step was getting the token from the login request and storing it in [local storage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage). The token payload containing the user profile, it had to be extracted, stored in the authentication service and made available. In case of a browser refresh, or any application reloading, the token would be read again and if not expired, the profile extracted. That process was triggered by a [route guard](https://angular.io/guide/router#milestone-5-route-guards) mediating navigation to all routes requiring a logged in user.
 
+In addition, the token had to be sent along every back-end API requests. Came to the rescue another [HttpInterceptor](https://angular.io/api/common/http/HttpInterceptor) which would add the authentication header on the fly to all requests. I was aware that [angular2-jwt](https://github.com/auth0/angular2-jwt), a package I was already using for token decoding, came with a fully-featured interceptor. But I thought I would make my own as I wanted to comprehend all authentication aspects of the application. Of course I added a simple filter to prevent token leaks to other domains that the back-end.
+
 ## License
 
 This project is under the [MIT license](LICENSE).
