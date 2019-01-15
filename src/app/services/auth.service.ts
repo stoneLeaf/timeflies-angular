@@ -30,7 +30,7 @@ export class AuthService {
       return false;
     }
     if (this.loggedInUser) { return true; }
-    this._loggedInUser = this._jwtHelper.decodeToken(storedToken)['profile'] as User;
+    this.extractUserFromPayload();
     return true;
   }
 
@@ -38,9 +38,13 @@ export class AuthService {
     return this.http.post(`${environment.apiUrl}/auth/login`,
                           { email: email, password: password})
                     .pipe(map(response => {
-                      this._loggedInUser = response['profile'] as User;
                       localStorage.setItem('token', response['token']);
+                      this.extractUserFromPayload();
                     }));
+  }
+
+  extractUserFromPayload() {
+    this._loggedInUser = this._jwtHelper.decodeToken(this.getToken())['profile'] as User;
   }
 
   getToken() {
