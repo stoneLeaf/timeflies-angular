@@ -3,8 +3,11 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
+
 import { HttpErrorHandlerInterceptor } from './services/interceptors/http-error-handler.interceptor';
+import { AuthInterceptor } from './services/interceptors/auth.interceptor';
+
+import { AppComponent } from './app.component';
 
 @NgModule({
   declarations: [
@@ -16,6 +19,7 @@ import { HttpErrorHandlerInterceptor } from './services/interceptors/http-error-
     AppRoutingModule
   ],
   providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: HttpErrorHandlerInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
