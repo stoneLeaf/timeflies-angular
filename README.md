@@ -30,6 +30,7 @@ In the same fashion as with my [coding journey](https://github.com/stoneLeaf/cod
 3. [Reporting for duty](#reporting-for-duty)
 4. [Router entanglement](#router-entanglement)
 5. [First request](#first-request)
+6. [Authentication](#authentication)
 
 ### Tour of Cats
 
@@ -70,6 +71,10 @@ The back-end running locally, the requests were too fast to let me see style cha
 Many questions arose as I started to write the code handling the API responses. Some of them about [error handling](https://angular.io/guide/http#error-handling). It was obvious to me that it had to be done at the service level and never in the components. For that purpose, I created a specific handler for HTTP errors which was piped in with [catchError](https://rxjs-dev.firebaseapp.com/api/operators/catchError). One of the ideas was to create a `ValidationError` that would be passed to the components in case of a [422 status](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/422) and be processed to give feedback to the user. I thought about network issues too. One simple solution was to create a toast service to display short messages.
 
 Immediately after, the HTTP error handling had to be switched from a *wannabe* service to an [HttpInterceptor](https://angular.io/api/common/http/HttpInterceptor). In case the server response was 401 (unauthorized), I wanted the router to navigate to the login page. For that purpose, I simply added the router to the constructor to have it injected, but the router reference remained `undefined`. Then I remembered that I wasn't *directly* calling the error handler's singleton instance method but instead passing it as a function object to the `catchError` operator. With the interceptor, I was finally able to make the router call I needed and as a bonus my services became [drier](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself).
+
+### Authentication
+
+Having implemented a [JWT](https://en.wikipedia.org/wiki/JSON_Web_Token) authentication scheme on the back-end, I needed to write the client-side part. To that purpose, the first step was getting the token from the login request and storing it in [local storage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage). The token payload containing the user profile, it had to be extracted, stored in the authentication service and made available. In case of a browser refresh, or any application reloading, the token would be read again and if not expired, the profile extracted. That process was triggered by a [route guard](https://angular.io/guide/router#milestone-5-route-guards) mediating navigation to all routes requiring a logged in user.
 
 ## License
 
