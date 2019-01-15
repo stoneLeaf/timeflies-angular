@@ -6,6 +6,7 @@ import { throwError, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 import { ValidationError } from '../../shared/errors/validation.error';
+import { AuthService } from '../auth.service';
 
 /**
  * HttpInterceptor used for HTTP error handling.
@@ -13,7 +14,8 @@ import { ValidationError } from '../../shared/errors/validation.error';
 @Injectable()
 export class HttpErrorHandlerInterceptor implements HttpInterceptor {
 
-  constructor(private router: Router) { }
+  constructor(private router: Router,
+              private authService: AuthService) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(req).pipe(catchError((error: HttpErrorResponse) => {
@@ -34,6 +36,7 @@ export class HttpErrorHandlerInterceptor implements HttpInterceptor {
         // Unauthorized
         if (this.router.url !== '/log_in') {
           // TODO: toast message? 'please log in'
+          this.authService.clearToken();
           this.router.navigate(['log_in']);
         } else {
           return throwError(new ValidationError('test', 'bad credentials'));
