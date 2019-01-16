@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -10,7 +10,7 @@ import { ValidationError } from 'src/app/shared/errors/validation.error';
   templateUrl: './login-page.component.html',
   styleUrls: ['./login-page.component.scss']
 })
-export class LoginPageComponent implements OnInit {
+export class LoginPageComponent {
   submitted = false;
   waiting = false;
   badCredentials = false;
@@ -22,12 +22,6 @@ export class LoginPageComponent implements OnInit {
 
   constructor(private router: Router,
               private authService: AuthService) { }
-
-  ngOnInit() {
-    if (this.authService.loggedIn()) {
-      this.onLoginNavigation();
-    }
-  }
 
   onSubmit(loginForm: NgForm) {
     this.badCredentials = false;
@@ -52,7 +46,7 @@ export class LoginPageComponent implements OnInit {
                     });
   }
 
-  onLoginNavigation() {
+  private onLoginNavigation() {
     if (this.authService.redirectAfterLogin) {
       this.router.navigateByUrl(this.authService.redirectAfterLogin);
     } else {
