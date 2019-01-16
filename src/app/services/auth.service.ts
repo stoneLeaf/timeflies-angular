@@ -15,11 +15,20 @@ import { User } from '../shared/models/user.model';
 export class AuthService {
   private _jwtHelper = new JwtHelperService();
   private _loggedInUser: User;
+  private _redirectAfterLogin: string;
 
   constructor(private http: HttpClient) { }
 
   get loggedInUser() {
     return this._loggedInUser;
+  }
+
+  get redirectAfterLogin() {
+    return this._redirectAfterLogin;
+  }
+
+  set redirectAfterLogin(url: string) {
+    this._redirectAfterLogin = url;
   }
 
   loggedIn(): boolean {

@@ -53,6 +53,10 @@ export class LoginPageComponent implements OnInit {
   }
 
   onLoginNavigation() {
-    this.router.navigate(['dashboard']);
+    if (this.authService.redirectAfterLogin) {
+      this.router.navigateByUrl(this.authService.redirectAfterLogin);
+    } else {
+      this.router.navigate(['dashboard']);
+    }
   }
 }

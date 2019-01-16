@@ -37,6 +37,7 @@ export class HttpErrorHandlerInterceptor implements HttpInterceptor {
         if (this.router.url !== '/log_in') {
           // TODO: toast message? 'please log in'
           this.authService.clearToken();
+          this.authService.redirectAfterLogin = this.router.url;
           this.router.navigate(['log_in']);
         } else {
           return throwError(new ValidationError('test', 'bad credentials'));
