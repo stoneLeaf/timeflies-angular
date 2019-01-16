@@ -1,22 +1,32 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { UserOnlyGuard } from '../guards/user-only.guard';
+import { AuthGuard, Role } from '../guards/auth.guard';
 
 import { SummaryComponent } from './components/summary/summary.component';
 import { PageOutletComponent } from './components/page-outlet/page-outlet.component';
 
 const routes: Routes = [
-  { path: '',
+  {
+    path: '',
     component: PageOutletComponent,
-    canActivate: [UserOnlyGuard],
+    canActivate: [AuthGuard],
+    data: {
+      restrictedTo: [Role.User]
+    },
     children: [
-      { path: '',
-        canActivateChild: [UserOnlyGuard],
+      {
+        path: '',
+        canActivateChild: [AuthGuard],
+        data: {
+          restrictedTo: [Role.User]
+        },
         children: [
           { path: '', component: SummaryComponent }
-        ]}
-    ]}
+        ]
+      }
+    ]
+  }
 ];
 
 @NgModule({
