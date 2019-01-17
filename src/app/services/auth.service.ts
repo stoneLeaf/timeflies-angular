@@ -54,6 +54,12 @@ export class AuthService {
 
   extractUserFromPayload() {
     this._loggedInUser = this._jwtHelper.decodeToken(this.getToken())['profile'] as User;
+    this._loggedInUser.gravatar = this.gravatar();
+  }
+
+  private gravatar(): string {
+    // TODO: add custom default image, see https://en.gravatar.com/site/implement/images/
+    return `https://www.gravatar.com/avatar/${this._loggedInUser.hashedEmail}`;
   }
 
   getToken() {
