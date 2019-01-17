@@ -13,7 +13,7 @@
       <div class="form-element">
         <label for="">Email address</label>
         <input type="text" id="email" name="email" autocomplete="off" spellcheck="false"
-               required [(ngModel)]="credentials.email" #email="ngModel">
+               required [(ngModel)]="credentials.email" #email="ngModel" autofocus>
         <div *ngIf="!email.valid && (!email.pristine || submitted)" class="form-error">
           Email is required.
         </div>
