@@ -50,7 +50,7 @@ export class LoginPageComponent {
     if (this.authService.redirectAfterLogin) {
       this.router.navigateByUrl(this.authService.redirectAfterLogin);
     } else {
-      this.router.navigate(['dashboard']);
+      this.router.navigate(['']);
     }
   }
 }
