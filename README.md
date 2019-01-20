@@ -31,6 +31,7 @@ In the same fashion as with my [coding journey](https://github.com/stoneLeaf/cod
 4. [Router entanglement](#router-entanglement)
 5. [First request](#first-request)
 6. [Authentication](#authentication)
+7. [The matcher trick](#the-matcher-trick)
 
 ### Tour of Cats
 
@@ -79,6 +80,16 @@ Having implemented a [JWT](https://en.wikipedia.org/wiki/JSON_Web_Token) authent
 In addition, the token had to be sent along every back-end API requests. Came to the rescue another [HttpInterceptor](https://angular.io/api/common/http/HttpInterceptor) which would add the authentication header on the fly to all requests. I was aware that [angular2-jwt](https://github.com/auth0/angular2-jwt), a package I was already using for token decoding, came with a fully-featured interceptor. But I thought I would make my own as I wanted to comprehend all authentication aspects of the application. Of course I added a simple filter to prevent token leaks to other domains that the back-end.
 
 One feature I chose to implement was a very basic user role system. For a single guard to suffice, I just fed it arguments using the [data option](https://angular.io/api/router/Route#data) of `Route`, in specific an array of `Role`, a custom [enum](https://www.typescriptlang.org/docs/handbook/enums.html). For instance, the dashboard area required a logged in user and therefore `Role.User` was passed to the guard. On the other hand, the lobby area was only to be accessible to unregistered users and `Role.Unregistered` was passed. For a route to be accessible to several user roles, they just had to be passed in an array. Those rules were probably going to change later but it was interesting to put in place some basic logic and experiment.
+
+### The matcher trick
+
+Early in the application design, I had in mind a structure in which a different module would be [lazy loaded](https://angular.io/guide/lazy-loading-ngmodules) depending on wether the user was logged in or not. Furthermore, I didn't want to have the user interface available under a global sub-path. For instance, I pictured that the root path of the application for a logged in user would be the dashboard from the user interface module, and for the unregistered visitor, the introduction page from the lobby module. I thought of it as a pretty common architecture and chose to implement it later as I was not yet comfortable enough with the router.
+
+Then came the time to implement and things were unexpectedly trickier. The first obvious thing I tried was using a [guard](https://angular.io/guide/router#milestone-5-route-guards). But what I had not realized at first is that when a guard returns `false`, as in this route should not be activated, the navigation is definitively canceled! It's up to the guard to trigger some actions such as a router navigation to a fallback path. And what I needed instead is the router to look for another match in the `Routes` array, specifically to another module.
+
+After looking at [all the properties](https://angular.io/api/router/Routes) available for a `Route`, I came up with an idea. The `matcher` option took a function that could be set up as a custom path matching strategy. In my case, even though I didn't care much for the path itself, I thought I could maybe divert it from its original purpose and check instead if the user was logged in or not. The issue which came first when implementing was that they were only functions and as such did not have access to Angular's [dependency injection](https://angular.io/guide/dependency-injection), thus preventing any calls to the authentication service. I wondered what things of interest could be accessed from this scope and then it hit me, [localStorage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage)! I just had to check whether the `token` property was set or not.
+
+To my great satisfaction, this solution turned out to work well and exactly as intended. After some more research I found out that another developer had come out with a [similar solution](https://medium.com/@lenseg1/loading-different-angular-modules-or-components-on-routes-with-same-path-2bb9ba4b6566). Moreover, he found a way to access the [DI](https://angular.io/guide/dependency-injection) from the matcher functions. But I liked the simplicity of my implementation and did not think it was at all necessary in my case to play with Angular's internals.
 
 ## License
 
