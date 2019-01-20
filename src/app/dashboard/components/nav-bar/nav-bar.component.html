@@ -1,13 +1,31 @@
-<nav class="nav-bar">
-  <div class="nav-logo" >
-    <a routerLink="/"><img alt="Logo" src="/assets/images/logo_full.svg"></a>
-  </div>
-  <div class="nav-items">
-    <div class="nav-item">
-      <a class="button" routerLink="/sign_up">Sign up</a>
+<nav role="navigation">
+  <div class="nav-container">
+    <div class="logo" >
+      <a routerLink="/"><img alt="Logo" src="/assets/images/logo_full.svg"></a>
     </div>
-    <div class="nav-item">
-      <a class="button" routerLink="/login">Log in</a>
+    <div class="middle-links">
+      <ul>
+        <li><a routerLink="/" [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">Dashboard</a></li>
+        <li><a routerLink="/projects" routerLinkActive="active">Projects</a></li>
+        <li><a routerLink="/reports" routerLinkActive="active">Reports</a></li>
+      </ul>
+    </div>
+    <div class="right-controls">
+      <div class="dropdown">
+        <div class="account">
+          <div class="avatar-wrapper"><img src="{{user.gravatar}}?s=30&d=blank"></div>
+          {{user.email}}
+          <span class="dropdown-symbol"></span>
+        </div>
+        <ul>
+          <li><span>{{user.name}}</span></li>
+          <li><hr></li>
+          <li><a routerLink="/profile">Profile</a></li>
+          <li><a routerLink="/preferences">Preferences</a></li>
+          <li><hr></li>
+          <li><a (click)="logOut()">Log out</a></li>
+        </ul>
+      </div>
     </div>
   </div>
 </nav>
