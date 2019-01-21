@@ -32,6 +32,7 @@ In the same fashion as with my [coding journey](https://github.com/stoneLeaf/cod
 5. [First request](#first-request)
 6. [Authentication](#authentication)
 7. [The matcher trick](#the-matcher-trick)
+8. [Fixing redirect from guard](#fixing-redirect-from-guard)
 
 ### Tour of Cats
 
@@ -90,6 +91,14 @@ Then came the time to implement and things were unexpectedly trickier. The first
 After looking at [all the properties](https://angular.io/api/router/Routes) available for a `Route`, I came up with an idea. The `matcher` option took a function that could be set up as a custom path matching strategy. In my case, even though I didn't care much for the path itself, I thought I could maybe divert it from its original purpose and check instead if the user was logged in or not. The issue which came first when implementing was that they were only functions and as such did not have access to Angular's [dependency injection](https://angular.io/guide/dependency-injection), thus preventing any calls to the authentication service. I wondered what things of interest could be accessed from this scope and then it hit me, [localStorage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage)! I just had to check whether the `token` property was set or not.
 
 To my great satisfaction, this solution turned out to work well and exactly as intended. After some more research I found out that another developer had come out with a [similar solution](https://medium.com/@lenseg1/loading-different-angular-modules-or-components-on-routes-with-same-path-2bb9ba4b6566). Moreover, he found a way to access the [DI](https://angular.io/guide/dependency-injection) from the matcher functions. But I liked the simplicity of my implementation and did not think it was at all necessary in my case to play with Angular's internals.
+
+### Fixing redirect from guard
+
+With the 7.1 Angular update came a [new feature](https://github.com/angular/angular/commit/4e9f2e5) for guards. Instead of handling manually redirections and then returning `false`, it became possible for them to return a [UrlTree](https://angular.io/api/router/UrlTree) to be directly processed by the router as a redirection. The goal was to let the former properly handle priority in case multiple guards were trying to redirect at the same time. But as I was implementing this feature, something did not work as expected and it led to a few hours spent debugging Angular's router.
+
+To be specific, in case the returned `UrlTree` was the root url `/` and it was the first navigation request (as in the application is started on the guarded path), it would not redirect at all after the `NavigationCancel` event. The culprit was `router.navigated`, a boolean set to `true` when 'at least one navigation happened' as stated [internally](https://github.com/angular/angular/blob/eea2b0f288eec889d56afb07dad21f75e77f1241/packages/router/src/router.ts#L327). For some reason, in the piped `catchError` block handling the case where a guard returned a `UrlTree` to be used as a redirection, that boolean was invariably set to `true`. Then, when the router would process the new navigation, in that case the redirection to the root path, it would discard it as that path was considered already navigated to.
+
+I learned *a lot* in the process about both [VS Code debugging tools](https://code.visualstudio.com/docs/editor/debugging) and Angular's router inner workings. This led to my [first pull request on a project that size](https://github.com/angular/angular/pull/28271). Before committing the patch, I also had to set up the right environment for a local run of the *lengthy* [full Angular test suite](https://github.com/angular/angular/blob/d6cfe2ed7ef32b0cca9b164789473e12c385075e/docs/BAZEL.md). I ended up spending a lot more time than anticipated as I had to switch versions for some packages, install missing dependencies and use a whole new tool to me, [Bazel](https://bazel.build/).
 
 ## License
 
