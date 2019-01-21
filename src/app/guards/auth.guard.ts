@@ -41,8 +41,7 @@ export class AuthGuard implements CanActivate, CanActivateChild {
     const roles =  <Array<Role>>route.data['restrictedTo'] || [];
     for (const role of roles) {
       if (!this.hasRole(role)) {
-        this.fallbackActionsFor(role, state.url);
-        return false;
+        return this.fallbackUrlFor(role, state.url);
       }
     }
     return true;
@@ -64,15 +63,16 @@ export class AuthGuard implements CanActivate, CanActivateChild {
     }
   }
 
-  private fallbackActionsFor(role: Role, url: string) {
+  private fallbackUrlFor(role: Role, url: string): boolean | UrlTree {
     switch (role) {
       case Role.Unregistered:
-        this.router.navigate(['']);
-        break;
+        // TODO: return root url as UrlTree instead, wait for bug fix
+        // see PR https://github.com/angular/angular/pull/28271
+        this.router.navigateByUrl('');
+        return false;
       case Role.User:
         this.authService.redirectAfterLogin = url;
-        this.router.navigate(['log_in']);
-        break;
+        return this.router.parseUrl('log_in');
     }
   }
 }
