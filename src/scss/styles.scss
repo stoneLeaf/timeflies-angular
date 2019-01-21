@@ -83,3 +83,51 @@ label {
   background-color: #ffa3a3;
   border-radius: 0.3em;
 }
+
+/* Common structures */
+
+section {
+  border: 1px solid lightgrey;
+  border-radius: 8px;
+  margin: 1.5em 0;
+  padding: 20px;
+  h1:first-child, h3:first-child,  {
+    margin-top: 0;
+    padding-bottom: 5px;
+    border-bottom: 1px solid lightgrey;
+  }
+}
+
+.notice {
+  border: 1px solid lightgrey;
+  border-radius: 2px;
+  background-color: rgb(255, 253, 231);
+  margin: 1.5em 0;
+  padding: 20px;
+  h2 {
+    margin: 0 0 5px;
+  }
+  p {
+    margin-bottom: 5px;
+  }
+  .close-icon {
+    float: right;
+    margin: 0 0 5px;
+    height: 20px;
+    width: 20px;
+    background-image: url("/assets/images/icon_close.svg");
+    background-repeat: no-repeat;
+    background-origin: content-box;
+    padding: 6px;
+    border: 1px solid lightgrey;
+    border-radius: 20px;
+    transition: opacity 0.2s;
+    &:hover {
+      opacity: 0.5;
+      cursor: pointer;
+    }
+    &:active {
+      border-color: black;
+    }
+  }
+}
