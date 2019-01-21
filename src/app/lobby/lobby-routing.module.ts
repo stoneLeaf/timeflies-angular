@@ -4,8 +4,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard, Role } from '../guards/auth.guard';
 
 import { IntroductionComponent } from './components/introduction/introduction.component';
-import { SignUpComponent } from './components/sign-up/sign-up.component';
 import { PageOutletComponent } from './components/page-outlet/page-outlet.component';
+import { SignUpComponent } from './components/sign-up/sign-up.component';
 
 const routes: Routes = [
   {
@@ -24,7 +24,14 @@ const routes: Routes = [
         },
         children: [
           { path: '', component: IntroductionComponent },
-          { path: 'sign_up', component: SignUpComponent }
+          { path: 'sign_up', component: SignUpComponent },
+          {
+            path: '**',
+            canActivateChild: [AuthGuard],
+            data: {
+              restrictedTo: [Role.User]
+            }
+          }
         ]
       }
     ]

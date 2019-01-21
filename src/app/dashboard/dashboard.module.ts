@@ -3,9 +3,10 @@ import { CommonModule } from '@angular/common';
 
 import { DashboardRoutingModule } from './dashboard-routing.module';
 
-import { PageOutletComponent } from './components/page-outlet/page-outlet.component';
-import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { FooterComponent } from './components/footer/footer.component';
+import { NavBarComponent } from './components/nav-bar/nav-bar.component';
+import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
+import { PageOutletComponent } from './components/page-outlet/page-outlet.component';
 import { SummaryComponent } from './components/summary/summary.component';
 
 @NgModule({
@@ -13,7 +14,8 @@ import { SummaryComponent } from './components/summary/summary.component';
     PageOutletComponent,
     NavBarComponent,
     FooterComponent,
-    SummaryComponent
+    SummaryComponent,
+    PageNotFoundComponent
   ],
   imports: [
     CommonModule,
