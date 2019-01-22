@@ -6,6 +6,8 @@ import { AuthGuard, Role } from '../guards/auth.guard';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { PageOutletComponent } from './components/page-outlet/page-outlet.component';
 import { SummaryComponent } from './components/summary/summary.component';
+import { ProjectNewComponent } from './components/project-new/project-new.component';
+import { ProjectsComponent } from './components/projects/projects.component';
 
 const routes: Routes = [
   {
@@ -24,6 +26,8 @@ const routes: Routes = [
         },
         children: [
           { path: '', component: SummaryComponent },
+          { path: 'projects/new', component: ProjectNewComponent },
+          { path: 'projects', component: ProjectsComponent },
           { path: '**', component: PageNotFoundComponent }
         ]
       }

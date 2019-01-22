@@ -1,0 +1,26 @@
+<section>
+  <h1>Create a new project</h1>
+  <form #projectForm="ngForm">
+    <div *ngIf="serverValidationError" class="form-element">
+      <div class="form-error">
+        {{serverValidationError}}
+      </div>
+    </div>
+    <div class="form-element">
+      <label for="name">Name</label>
+      <input type="text" id="name" name="name" [(ngModel)]="project.name"
+              autocomplete="off" maxlength="100" size="100" required #name="ngModel">
+      <div *ngIf="!name.valid && (!name.pristine || submitted)" class="form-error">
+        Name is required.
+      </div>
+    </div>
+    <div class="form-element">
+      <label for="email">Description (optional)</label>
+      <input type="text" id="description" name="description" [(ngModel)]="project.description"
+      autocomplete="off" maxlength="255" #description="ngModel">
+    </div>
+    <div class="form-element form-actions">
+      <button (click)="onSubmit(projectForm)" [disabled]="waiting" class="button-primary">Create</button>
+    </div>
+  </form>
+</section>

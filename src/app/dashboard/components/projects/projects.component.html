@@ -1,0 +1,20 @@
+<div class="notice">
+  Use this page to manage your projects.
+</div>
+<section>
+  <h1>Manage your projects</h1>
+  <a class="button-primary" routerLink="/projects/new">Create a new project</a>
+  <div *ngIf="projects === undefined">
+    Loading...
+  </div>
+  <div *ngIf="projects !== undefined">
+    <ul>
+      <li *ngIf="projects.length === 0">
+        No projects
+      </li>
+      <li *ngFor="let project of projects">
+        {{project.name}}
+      </li>
+    </ul>
+  </div>
+</section>
