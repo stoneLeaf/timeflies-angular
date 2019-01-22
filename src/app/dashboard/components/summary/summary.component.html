@@ -1,3 +1,13 @@
-<p>
-  summary works!
-</p>
+<div class="notice">
+  <div class="close-icon" (click)="click()"></div>
+  <h2>Welcome to your dashboard!</h2>
+  <p>This entry point displays your main statistics and projects at a glance.</p>
+</div>
+<section>
+  <h3>Activity during the last 7 days</h3>
+  This area should display a graph of the last 7 days with activity in hours on the y axis.
+</section>
+<section>
+  <h3>Your top projects</h3>
+  You don't have any project yet. Why don't you <a routerLink="/projects/new">create the first one</a> now?
+</section>
