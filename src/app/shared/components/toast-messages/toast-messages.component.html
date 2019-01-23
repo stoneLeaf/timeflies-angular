@@ -1,0 +1,10 @@
+<div *ngIf="toast" (animationend)="onAnimationEnd($event.animationName)"
+     [ngClass]="{'info': toast.type === Type.Info,
+                 'success': toast.type === Type.Success,
+                 'warning': toast.type === Type.Warning,
+                 'dismiss-with-delay': dismissWithDelay,
+                 'dismiss-now': dismissNow}">
+  {{toast.message}}
+  <a *ngIf="toast.dismissal === Dismissal.Link" (click)="dismissNow = true"
+      class="dismiss-link">Dismiss</a>
+</div>

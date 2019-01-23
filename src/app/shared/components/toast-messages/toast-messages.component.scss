@@ -1,0 +1,63 @@
+div {
+  position: sticky;
+  top: 0px;
+  width: 90%;
+  margin: 0 auto;
+  border: 1px solid lightgrey;
+  border-top: 0;
+  border-radius: 0 0 5px 5px;
+  padding: 5px;
+  height: 20px;
+  text-align: center;
+  animation: intro 0.5s linear 0s forwards;
+}
+
+.dismiss-now {
+  animation: outro 0.5s linear 0s;
+}
+
+.dismiss-with-delay {
+  animation: outro 0.5s linear 3s;
+}
+
+.dismiss-link {
+  text-decoration: underline;
+}
+
+.info {
+  background-color: rgb(255, 255, 208);
+}
+
+.success {
+  background-color: rgb(194, 255, 194);
+}
+
+.warning {
+  background-color: rgb(255, 224, 224);
+}
+
+@mixin hidden-state {
+  opacity: 0;
+}
+
+@mixin visible-state {
+  opacity: 1;
+}
+
+@keyframes intro {
+  from {
+    @include hidden-state();
+  }
+  to {
+    @include visible-state();
+  }
+}
+
+@keyframes outro {
+  from {
+    @include visible-state();
+  }
+  to {
+    @include hidden-state();
+  }
+}
