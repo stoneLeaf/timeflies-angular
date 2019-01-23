@@ -7,6 +7,7 @@ import { catchError } from 'rxjs/operators';
 
 import { ValidationError } from '../../shared/errors/validation.error';
 import { AuthService } from '../auth.service';
+import { ToastService } from '../toast.service';
 
 /**
  * HttpInterceptor used for HTTP error handling.
@@ -15,7 +16,8 @@ import { AuthService } from '../auth.service';
 export class HttpErrorHandlerInterceptor implements HttpInterceptor {
 
   constructor(private router: Router,
-              private authService: AuthService) { }
+              private authService: AuthService,
+              private toastService: ToastService) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(req).pipe(catchError((error: HttpErrorResponse) => {
@@ -26,7 +28,7 @@ export class HttpErrorHandlerInterceptor implements HttpInterceptor {
   private handle(error: HttpErrorResponse): Observable<any> {
     if (error.error instanceof ErrorEvent) {
       // Client-side or network error
-      // TODO: toast 'check your connection then retry'
+      this.toastService.warning('Something seem to be wrong with your connection.');
     } else {
       // Http errors (non-2xx statuses)
       if (error.status === 422) {
@@ -35,7 +37,8 @@ export class HttpErrorHandlerInterceptor implements HttpInterceptor {
       } else if (error.status === 401) {
         // Unauthorized
         if (this.router.url !== '/log_in') {
-          // TODO: toast message? 'please log in'
+          this.toastService.info('You must log in before proceeding to this page.');
+
           this.authService.clearToken();
           this.authService.redirectAfterLogin = this.router.url;
           this.router.navigate(['log_in']);
@@ -45,10 +48,13 @@ export class HttpErrorHandlerInterceptor implements HttpInterceptor {
       } else if (error.status === 403) {
         // Not allowed
         // TODO: custom error?
+      } else if (error.status === 0) {
+        // In case of a net::ERR_CONNECTION_REFUSED for instance
+        this.toastService.warning('Internal error, please try again in a few moments.');
       }
       // For debugging purposes
       console.error(
-        `Back_end returned code ${error.status}, ` +
+        `Back-end returned code ${error.status}, ` +
         `body was: ${error.error}`);
     }
     // Returning empty Error observable

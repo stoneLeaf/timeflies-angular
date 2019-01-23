@@ -5,6 +5,7 @@ import { NgForm } from '@angular/forms';
 import { Project } from 'src/app/shared/models/project.model';
 import { ProjectService } from 'src/app/services/project.service';
 import { ValidationError } from 'src/app/shared/errors/validation.error';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'app-project-new',
@@ -18,8 +19,8 @@ export class ProjectNewComponent implements OnInit {
   submitted = false;
 
   constructor(private router: Router,
-              private projectService: ProjectService) {
-  }
+              private toastService: ToastService,
+              private projectService: ProjectService) { }
 
   ngOnInit() {
     this.project = new Project();
@@ -36,15 +37,15 @@ export class ProjectNewComponent implements OnInit {
     this.waiting = true;
 
     this.projectService.create(this.project)
-                    .subscribe((project: Project) => {
-                      // TODO: add toast, 'project created'
-                      this.router.navigate(['projects']);
-                    },
-                    error => {
-                      if (error instanceof ValidationError) {
-                        this.serverValidationError = error.message;
-                      }
-                      this.waiting = false;
-                    });
+      .subscribe((project: Project) => {
+        this.toastService.success(`Project '${project.name}' successfully created!`);
+        this.router.navigate(['projects']);
+      },
+      error => {
+        if (error instanceof ValidationError) {
+          this.serverValidationError = error.message;
+        }
+        this.waiting = false;
+      });
   }
 }

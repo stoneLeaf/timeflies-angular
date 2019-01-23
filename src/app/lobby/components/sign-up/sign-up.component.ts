@@ -5,6 +5,7 @@ import { NgForm } from '@angular/forms';
 import { User } from 'src/app/shared/models/user.model';
 import { UserService } from 'src/app/services/user.service';
 import { ValidationError } from 'src/app/shared/errors/validation.error';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'app-sign-up',
@@ -19,6 +20,7 @@ export class SignUpComponent implements OnInit {
   serverValidationError = '';
 
   constructor(private router: Router,
+              private toastService: ToastService,
               private userService: UserService) { }
 
   ngOnInit() {
@@ -37,7 +39,7 @@ export class SignUpComponent implements OnInit {
 
     this.userService.create(this.user)
                     .subscribe((user: User) => {
-                      // TODO: add toast, 'account created please log in'
+                      this.toastService.success('Account created! You may now log in.');
                       this.router.navigate(['log_in']);
                     },
                     error => {
