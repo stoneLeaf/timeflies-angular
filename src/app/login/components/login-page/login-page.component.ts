@@ -38,11 +38,11 @@ export class LoginPageComponent {
                       () => { this.onLoginNavigation(); },
                       error => {
                         if (error instanceof ValidationError) {
-                          this.waiting = false;
                           this.submitted = false;
                           this.badCredentials = true;
                           loginForm.reset();
                         }
+                        this.waiting = false;
                     });
   }
 
