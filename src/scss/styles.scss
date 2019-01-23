@@ -12,6 +12,8 @@ a {
   color: $primary-color;
   text-decoration: none;
   &:hover {
+    // Cursor to pointer even when href not defined
+    cursor: pointer;
     text-decoration: underline;
   }
 }
@@ -91,7 +93,7 @@ section {
   border-radius: 8px;
   margin: 1.5em 0;
   padding: 20px;
-  h1:first-child, h3:first-child,  {
+  h1:first-child, h3:first-child  {
     margin-top: 0;
     padding-bottom: 5px;
     border-bottom: 1px solid lightgrey;
@@ -112,22 +114,25 @@ section {
   }
   .close-icon {
     float: right;
-    margin: 0 0 5px;
-    height: 20px;
-    width: 20px;
-    background-image: url("/assets/images/icon_close.svg");
-    background-repeat: no-repeat;
-    background-origin: content-box;
-    padding: 6px;
-    border: 1px solid lightgrey;
-    border-radius: 20px;
-    transition: opacity 0.2s;
-    &:hover {
-      opacity: 0.5;
-      cursor: pointer;
-    }
-    &:active {
-      border-color: black;
-    }
+  }
+}
+
+.close-icon {
+  margin: 0 0 5px;
+  height: 20px;
+  width: 20px;
+  background-image: url("/assets/images/icon_close.svg");
+  background-repeat: no-repeat;
+  background-origin: content-box;
+  padding: 6px;
+  border: 1px solid lightgrey;
+  border-radius: 20px;
+  transition: opacity 0.2s;
+  &:hover {
+    opacity: 0.5;
+    cursor: pointer;
+  }
+  &:active {
+    border-color: black;
   }
 }
