@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { DashboardRoutingModule } from './dashboard-routing.module';
+import { SharedModule } from '../shared/shared.module';
 
 import { FooterComponent } from './components/footer/footer.component';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
@@ -20,12 +21,13 @@ import { ProjectsComponent } from './components/projects/projects.component';
     SummaryComponent,
     PageNotFoundComponent,
     ProjectNewComponent,
-    ProjectsComponent,
+    ProjectsComponent
   ],
   imports: [
     CommonModule,
     DashboardRoutingModule,
-    FormsModule
+    FormsModule,
+    SharedModule
   ]
 })
 export class DashboardModule { }
