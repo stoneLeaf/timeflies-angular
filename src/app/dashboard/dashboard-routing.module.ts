@@ -8,6 +8,7 @@ import { PageOutletComponent } from './components/page-outlet/page-outlet.compon
 import { SummaryComponent } from './components/summary/summary.component';
 import { ProjectNewComponent } from './components/project-new/project-new.component';
 import { ProjectsComponent } from './components/projects/projects.component';
+import { ProjectEditComponent } from './components/project-edit/project-edit.component';
 
 const routes: Routes = [
   {
@@ -26,6 +27,7 @@ const routes: Routes = [
         },
         children: [
           { path: '', component: SummaryComponent },
+          { path: 'projects/:id/edit', component: ProjectEditComponent },
           { path: 'projects/new', component: ProjectNewComponent },
           { path: 'projects', component: ProjectsComponent },
           { path: '**', component: PageNotFoundComponent }

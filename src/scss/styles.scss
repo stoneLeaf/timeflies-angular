@@ -93,6 +93,11 @@ label {
   display: flex;
 }
 
+.flex-horizontal-center {
+  display: flex;
+  justify-content: center;
+}
+
 .flex-vertical-center {
   display: flex;
   flex-direction: column;

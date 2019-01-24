@@ -28,12 +28,12 @@
       </li>
       <li *ngFor="let project of projects" class="project">
         <div class="project-infos">
-          <h3><a routerLink="/projects/{{project.slug}}">{{project.name}}</a></h3>
+          <h3><a routerLink="/projects/{{project.id}}">{{project.name}}</a></h3>
           <div class="description">{{project.description | defaultValue:'No description'}}</div>
           Last activity 2 days ago.
         </div>
         <div class="project-actions">
-          <div class="icon-edit"></div><div class="icon-delete"></div>
+          <a class="icon-edit" routerLink="/projects/{{project.id}}/edit"></a><div class="icon-delete"></div>
         </div>
       </li>
     </ul>
