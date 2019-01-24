@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, ParamMap } from '@angular/router';
 import { NgForm } from '@angular/forms';
+
+import { Observable, throwError } from 'rxjs';
+import { switchMap, catchError } from 'rxjs/operators';
 
 import { Project } from 'src/app/shared/models/project.model';
 import { ProjectService } from 'src/app/services/project.service';
@@ -14,7 +17,8 @@ import { ValidationError } from 'src/app/shared/errors/validation.error';
   styleUrls: ['./project-edit.component.scss']
 })
 export class ProjectEditComponent implements OnInit {
-  project: Project;
+  project$: Observable<Project>;
+
   serverValidationError = '';
   waiting = false;
   submitted = false;
@@ -25,22 +29,22 @@ export class ProjectEditComponent implements OnInit {
               private projectService: ProjectService) { }
 
   ngOnInit() {
-    this.route.params.subscribe(params => {
-      this.projectService.getById(params['id']).subscribe(
-        (project: Project) => {
-          this.project = project;
-        },
-        error => {
-          if (error instanceof NotFoundError) {
-            // TODO: kinda hacky to navigate to wildcard route
-            this.router.navigate(['/not_found'], { skipLocationChange: true });
-            this.toastService.warning('Project not found.');
-          }
-        });
-    });
+    this.project$ = this.route.paramMap.pipe(
+      switchMap((params: ParamMap) => {
+        return this.projectService.getById(params.get('id')).pipe(
+          catchError(error => {
+            if (error instanceof NotFoundError) {
+              // TODO: kinda hacky to navigate to wildcard route
+              this.router.navigate(['/not_found'], { skipLocationChange: true });
+              this.toastService.warning('Project not found.');
+            }
+            return throwError(error);
+        }));
+    })
+    );
   }
 
-  onSubmit(projectForm: NgForm) {
+  onSubmit(projectForm: NgForm, project: Project) {
     this.submitted = true;
 
     if (projectForm.invalid) {
@@ -52,9 +56,9 @@ export class ProjectEditComponent implements OnInit {
 
     // TODO: if no changes, don't make the back-end call
 
-    this.projectService.update(this.project)
-      .subscribe((project: Project) => {
-        this.toastService.success(`Project '${project.name}' successfully updated!`);
+    this.projectService.update(project)
+      .subscribe((serverProject: Project) => {
+        this.toastService.success(`Project '${serverProject.name}' successfully updated!`);
         this.router.navigate(['projects']);
       },
       error => {

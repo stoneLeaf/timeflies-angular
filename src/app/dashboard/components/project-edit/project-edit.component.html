@@ -1,9 +1,6 @@
 <section>
   <h1>Edit project</h1>
-  <div *ngIf="!project" class="flex-horizontal-center">
-    <div class="spinner"></div>
-  </div>
-  <form #projectForm="ngForm" *ngIf="project">
+  <form #projectForm="ngForm" *ngIf="(project$ | async) as project; else loading">
     <div *ngIf="serverValidationError" class="form-element">
       <div class="form-error">
         {{serverValidationError}}
@@ -23,8 +20,13 @@
       autocomplete="off" maxlength="255" #description="ngModel">
     </div>
     <div class="form-element form-actions">
-      <button (click)="onSubmit(projectForm)" [disabled]="waiting" class="button-primary">Save</button>
+      <button (click)="onSubmit(projectForm, project)" [disabled]="waiting" class="button-primary">Save</button>
     </div>
   </form>
+  <ng-template #loading>
+    <div class="flex-horizontal-center">
+      <div class="spinner"></div>
+    </div>
+  </ng-template>
 </section>
 
