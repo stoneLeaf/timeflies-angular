@@ -20,9 +20,9 @@
   </div>
   <div class="project-list">
     <ul>
-      <div *ngIf="projects === undefined" class="empty-row">
+      <li *ngIf="projects === undefined" class="empty-row">
         <div class="spinner"></div>
-      </div>
+      </li>
       <li *ngIf="projects?.length === 0" class="empty-row">
         No projects yet!
       </li>
