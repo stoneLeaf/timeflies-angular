@@ -1,5 +1,15 @@
-<div class="notice">
-  Use this page to manage your projects.
+<div *ngIf="projects?.length === 0" class="notice">
+  <div class="close-icon"></div>
+  <div class="flex">
+    <div class="flex-vertical-center image-container">
+      <img src="/assets/images/icon_project.svg" class="project-notice-image">
+    </div>
+    <div class="flex-vertical-center">
+      <h3>Stay organized</h3>
+      <p>Time activities belonging to projects, everything stays perfectly sorted and organized.<br />
+      <a routerLink="/projects/new">Create a first project</a> and get started!</p>
+    </div>
+  </div>
 </div>
 <section>
   <h1>Manage your projects</h1>
