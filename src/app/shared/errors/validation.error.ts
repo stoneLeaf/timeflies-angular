@@ -12,5 +12,5 @@ export class ValidationError {
    * @param field the field which triggered the validation error
    * @param message a human readable error message
    */
-  constructor(public readonly field: string, public readonly message: string) { }
+  constructor(readonly field: string, readonly message: string) { }
 }
