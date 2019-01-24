@@ -87,6 +87,18 @@ label {
   border-radius: 0.3em;
 }
 
+/* Layout shortcuts */
+
+.flex {
+  display: flex;
+}
+
+.flex-vertical-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
 /* Common structures */
 
 section {
@@ -106,8 +118,8 @@ section {
   border-radius: 2px;
   background-color: rgb(255, 253, 231);
   margin: 1.5em 0;
-  padding: 20px;
-  h2 {
+  padding: 30px;
+  h2, h3 {
     margin: 0 0 5px;
   }
   p {
