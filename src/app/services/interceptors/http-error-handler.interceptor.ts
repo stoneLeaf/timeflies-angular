@@ -5,9 +5,13 @@ import { Router } from '@angular/router';
 import { throwError, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-import { ValidationError } from '../../shared/errors/validation.error';
+import { environment } from 'src/environments/environment';
+
 import { AuthService } from '../auth.service';
 import { ToastService } from '../toast.service';
+
+import { ValidationError } from '../../shared/errors/validation.error';
+import { NotFoundError } from 'src/app/shared/errors/not-found.error';
 
 /**
  * HttpInterceptor used for HTTP error handling.
@@ -47,17 +51,19 @@ export class HttpErrorHandlerInterceptor implements HttpInterceptor {
         }
       } else if (error.status === 403) {
         // Not allowed
-        // TODO: custom error?
+        // TODO: custom global error?
+      } else  if (error.status === 404) {
+        return throwError(new NotFoundError('Not found.'));
       } else if (error.status === 0) {
         // In case of a net::ERR_CONNECTION_REFUSED for instance
         this.toastService.warning('Internal error, please try again in a few moments.');
       }
       // For debugging purposes
-      console.error(
-        `Back-end returned code ${error.status}, ` +
-        `body was: ${error.error}`);
+      if (!environment.production) {
+        console.error(`Back-end returned HTTP code ${error.status}`, error);
+      }
     }
-    // Returning empty Error observable
-    return throwError('');
+    // Passing along the Error
+    return throwError(error);
   }
 }
