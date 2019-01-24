@@ -3,17 +3,28 @@
 </div>
 <section>
   <h1>Manage your projects</h1>
-  <a class="button-primary" routerLink="/projects/new">Create a new project</a>
-  <div *ngIf="projects === undefined">
-    Loading...
+  <div class="actions-bar">
+    <input type="text" placeholder="Find a project...">
+    <a [ngClass]="projects?.length === 0 ? 'button-primary' : 'button-secondary'"
+       routerLink="/projects/new">New project</a>
   </div>
-  <div *ngIf="projects !== undefined">
+  <div class="project-list">
     <ul>
-      <li *ngIf="projects.length === 0">
-        No projects
+      <div *ngIf="projects === undefined" class="empty-row">
+        <div class="spinner"></div>
+      </div>
+      <li *ngIf="projects?.length === 0" class="empty-row">
+        No projects yet!
       </li>
-      <li *ngFor="let project of projects">
-        {{project.name}}
+      <li *ngFor="let project of projects" class="project">
+        <div class="project-infos">
+          <h3><a routerLink="/projects/{{project.slug}}">{{project.name}}</a></h3>
+          <div class="description">{{project.description | defaultValue:'No description'}}</div>
+          Last activity 2 days ago.
+        </div>
+        <div class="project-actions">
+          <div class="icon-edit"></div><div class="icon-delete"></div>
+        </div>
       </li>
     </ul>
   </div>

@@ -29,6 +29,7 @@ a {
   color: white;
   text-decoration: none;
   display: inline-block;
+  white-space: nowrap;
   &:hover {
     background-color: lighten($color, 15%);
     text-decoration: none;
@@ -93,7 +94,7 @@ section {
   border-radius: 8px;
   margin: 1.5em 0;
   padding: 20px;
-  h1:first-child, h3:first-child  {
+  > h1:first-child, > h3:first-child  {
     margin-top: 0;
     padding-bottom: 5px;
     border-bottom: 1px solid lightgrey;
@@ -134,5 +135,29 @@ section {
   }
   &:active {
     border-color: black;
+  }
+}
+
+.spinner {
+  display: inline-block;
+  animation: spin 0.7s linear infinite;
+  &:after {
+    content: '';
+    height: 30px;
+    width: 30px;
+    display: block;
+    border: 2px solid lightgrey;
+    border-top-color: transparent;
+    border-bottom-color: transparent;
+    border-radius: 50%;
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
   }
 }
