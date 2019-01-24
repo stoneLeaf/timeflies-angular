@@ -1,9 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Router, NavigationStart } from '@angular/router';
 
-import { Subscription } from 'rxjs';
+import { Subject } from 'rxjs';
 
 import { Toast, Type, Dismissal } from 'src/app/shared/models/toast.model';
 import { ToastService } from 'src/app/services/toast.service';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-toast-messages',
@@ -11,7 +13,7 @@ import { ToastService } from 'src/app/services/toast.service';
   styleUrls: ['./toast-messages.component.scss']
 })
 export class ToastMessagesComponent implements OnInit, OnDestroy {
-  private _toastSubscription: Subscription;
+  private _unsubscribe = new Subject();
   private _queue: Toast[] = [];
 
   toast: Toast;
@@ -22,19 +24,32 @@ export class ToastMessagesComponent implements OnInit, OnDestroy {
   Type = Type;
   Dismissal = Dismissal;
 
-  constructor(private toastService: ToastService) { }
+  constructor(private router: Router,
+              private toastService: ToastService) { }
 
   ngOnInit() {
-    this._toastSubscription = this.toastService.toast$.subscribe(
-      toast => {
-        this._queue.push(toast);
-        this.load();
-      });
+    this.router.events.pipe(takeUntil(this._unsubscribe))
+                      .subscribe(event => {
+                        if (event instanceof NavigationStart) {
+                          if (this.toast && !this.toast.stayAfterNavigation) {
+                            this.dismissWithDelay = false;
+                            this.dismissNow = true;
+                          }
+                        }
+                      });
+    this.toastService.toast$.pipe(takeUntil(this._unsubscribe))
+                            .subscribe(
+                              toast => {
+                                this._queue.push(toast);
+                                this.load();
+                              }
+                            );
   }
 
   ngOnDestroy() {
     // Prevent memory leaks
-    this._toastSubscription.unsubscribe();
+    this._unsubscribe.next();
+    this._unsubscribe.complete();
   }
 
   load() {

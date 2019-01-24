@@ -21,15 +21,15 @@ export class ToastService {
     return this._toast$.asObservable();
   }
 
-  info(message: string) {
-    this._toast$.next(new Toast(Type.Info, Dismissal.Auto, message));
+  info(message: string, stayAfterNavigation?: boolean) {
+    this._toast$.next(new Toast(Type.Info, Dismissal.Auto, message, stayAfterNavigation));
   }
 
-  success(message: string) {
-    this._toast$.next(new Toast(Type.Success, Dismissal.Auto, message));
+  success(message: string, stayAfterNavigation?: boolean) {
+    this._toast$.next(new Toast(Type.Success, Dismissal.Auto, message, stayAfterNavigation));
   }
 
-  warning(message: string) {
-    this._toast$.next(new Toast(Type.Warning, Dismissal.Link, message));
+  warning(message: string, stayAfterNavigation?: boolean) {
+    this._toast$.next(new Toast(Type.Warning, Dismissal.Link, message, stayAfterNavigation));
   }
 }

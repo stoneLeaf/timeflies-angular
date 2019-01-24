@@ -21,5 +21,6 @@ export enum Dismissal {
 export class Toast {
   constructor(readonly type: Type,
               readonly dismissal: Dismissal,
-              readonly message: string) { }
+              readonly message: string,
+              readonly stayAfterNavigation?: boolean) { }
 }
