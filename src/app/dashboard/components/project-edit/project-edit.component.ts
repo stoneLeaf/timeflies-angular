@@ -58,8 +58,8 @@ export class ProjectEditComponent implements OnInit {
 
     this.projectService.update(project)
       .subscribe((serverProject: Project) => {
-        this.toastService.success(`Project '${serverProject.name}' successfully updated!`);
         this.router.navigate(['projects']);
+        this.toastService.success(`Project '${serverProject.name}' successfully updated!`);
       },
       error => {
         if (error instanceof ValidationError) {

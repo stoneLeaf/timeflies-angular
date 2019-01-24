@@ -39,8 +39,8 @@ export class SignUpComponent implements OnInit {
 
     this.userService.create(this.user)
                     .subscribe((user: User) => {
-                      this.toastService.success('Account created! You may now log in.');
                       this.router.navigate(['log_in']);
+                      this.toastService.success('Account created! You may now log in.');
                     },
                     error => {
                       // Only kind of http errors handled by the component

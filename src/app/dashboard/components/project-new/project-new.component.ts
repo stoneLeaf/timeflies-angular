@@ -38,8 +38,8 @@ export class ProjectNewComponent implements OnInit {
 
     this.projectService.create(this.project)
       .subscribe((project: Project) => {
-        this.toastService.success(`Project '${project.name}' successfully created!`);
         this.router.navigate(['projects']);
+        this.toastService.success(`Project '${project.name}' successfully created!`);
       },
       error => {
         if (error instanceof ValidationError) {

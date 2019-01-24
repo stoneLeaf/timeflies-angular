@@ -41,11 +41,11 @@ export class HttpErrorHandlerInterceptor implements HttpInterceptor {
       } else if (error.status === 401) {
         // Unauthorized
         if (this.router.url !== '/log_in') {
-          this.toastService.info('You must log in before proceeding to this page.');
-
           this.authService.clearToken();
           this.authService.redirectAfterLogin = this.router.url;
+
           this.router.navigate(['log_in']);
+          this.toastService.info('You must log in before proceeding to this page.');
         } else {
           return throwError(new ValidationError('test', 'bad credentials'));
         }
