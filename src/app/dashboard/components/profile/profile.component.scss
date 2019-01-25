@@ -1,0 +1,15 @@
+.avatar-wrapper {
+  display: flex;
+  align-items: center;
+  position: relative;
+  margin: 0;
+  padding: 2em;
+  margin-right: 6px;
+  background: url("/assets/images/default_avatar.svg") no-repeat;
+  background-origin: content-box;
+  background-size: contain;
+  img {
+    border: 1px solid lightgrey;
+    border-radius: 5px;
+  }
+}

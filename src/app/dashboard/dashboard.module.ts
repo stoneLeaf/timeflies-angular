@@ -14,6 +14,7 @@ import { ProjectNewComponent } from './components/project-new/project-new.compon
 import { ProjectsComponent } from './components/projects/projects.component';
 import { ProjectEditComponent } from './components/project-edit/project-edit.component';
 import { ProjectViewComponent } from './components/project-view/project-view.component';
+import { ProfileComponent } from './components/profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { ProjectViewComponent } from './components/project-view/project-view.com
     ProjectNewComponent,
     ProjectsComponent,
     ProjectEditComponent,
-    ProjectViewComponent
+    ProjectViewComponent,
+    ProfileComponent
   ],
   imports: [
     CommonModule,
