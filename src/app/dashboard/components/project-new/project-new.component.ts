@@ -38,7 +38,7 @@ export class ProjectNewComponent implements OnInit {
 
     this.projectService.create(this.project)
       .subscribe((project: Project) => {
-        this.router.navigate(['projects']);
+        this.router.navigate(['projects', project.id]);
         this.toastService.success(`Project '${project.name}' successfully created!`);
       },
       error => {
