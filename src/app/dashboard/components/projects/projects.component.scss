@@ -57,34 +57,3 @@
   color: grey;
   font-style: italic;
 }
-
-@mixin action-icon($icon-url) {
-  display: inline-block;
-  border: 1px solid lightgrey;
-  border-radius: 5px;
-  width: 25px;
-  height: 25px;
-  padding: 3px;
-  opacity: 0.7;
-  background-image: url($icon-url);
-  background-repeat: no-repeat;
-  background-origin: content-box;
-  background-size: cover;
-  transition: opacity 0.2s;
-  &:hover {
-    opacity: 1;
-    border-color: black;
-    cursor: pointer;
-  }
-  &:active {
-    background-color: lightgrey;
-  }
-}
-
-.icon-edit {
-  @include action-icon("/assets/images/icon_edit.svg");
-}
-
-.icon-delete {
-  @include action-icon("/assets/images/icon_delete.svg");
-}
