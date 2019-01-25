@@ -32,9 +32,8 @@
           <div class="description">{{project.description | defaultValue:'No description'}}</div>
           Last activity 2 days ago.
         </div>
-        <div class="project-actions">
-          <a class="icon-edit" routerLink="/projects/{{project.id}}/edit"></a><div class="icon-delete" (click)="delete(project)"></div>
-        </div>
+        <app-project-actions-icons [project]="project"
+                    (deletion)="onDelete(project)"></app-project-actions-icons>
       </li>
     </ul>
   </div>
