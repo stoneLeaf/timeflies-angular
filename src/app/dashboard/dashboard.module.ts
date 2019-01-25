@@ -13,6 +13,7 @@ import { SummaryComponent } from './components/summary/summary.component';
 import { ProjectNewComponent } from './components/project-new/project-new.component';
 import { ProjectsComponent } from './components/projects/projects.component';
 import { ProjectEditComponent } from './components/project-edit/project-edit.component';
+import { ProjectViewComponent } from './components/project-view/project-view.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { ProjectEditComponent } from './components/project-edit/project-edit.com
     PageNotFoundComponent,
     ProjectNewComponent,
     ProjectsComponent,
-    ProjectEditComponent
+    ProjectEditComponent,
+    ProjectViewComponent
   ],
   imports: [
     CommonModule,

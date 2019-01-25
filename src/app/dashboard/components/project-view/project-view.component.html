@@ -1,0 +1,31 @@
+<div *ngIf="project$ | async as project; else loading">
+  <section>
+    <h1>Project overview</h1>
+    <div class="project-head">
+      <div class="flex">
+        <div class="flex-vertical-center image-container">
+          <img src="/assets/images/icon_project.svg" class="project-image">
+        </div>
+        <div>
+          <h2>{{project.name}}</h2>
+          {{project.description | defaultValue:'No description.'}}
+        </div>
+      </div>
+      <div class="project-actions">
+        <a class="icon-edit" routerLink="/projects/{{project.id}}/edit"></a>
+        <div class="icon-delete" (click)="delete(project)"></div>
+      </div>
+    </div>
+  </section>
+  <section>
+    <h1>Project activities</h1>
+    <div>
+      There are no recorded activities yet.
+    </div>
+  </section>
+</div>
+<ng-template #loading>
+  <section class="flex-horizontal-center">
+    <div class="spinner"></div>
+  </section>
+</ng-template>

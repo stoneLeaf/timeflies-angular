@@ -1,0 +1,23 @@
+.image-container {
+  margin-left: 2em;
+  margin-right: 3em;
+}
+
+.project-image {
+  height: 120px;
+  opacity: 0.7;
+}
+
+.project-head {
+  display: flex;
+  justify-content: space-between;
+}
+
+.project-actions {
+  display: flex;
+  align-items: center;
+  margin-right: 2em;
+  div, a {
+    margin: 5px;
+  }
+}
