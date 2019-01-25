@@ -26,8 +26,14 @@
       </div>
       <div class="form-element">
         <label for="password">Password</label>
-        <input type="password" id="password" name="password" [(ngModel)]="user.password"
-               required #password="ngModel">
+        <div class="password-container">
+          <input type="{{showPassword ? 'text' : 'password'}}" id="password" name="password" [(ngModel)]="user.password"
+                required #password="ngModel">
+          <button class="password-visibility"
+            (click)="showPassword ? showPassword = false : showPassword = true">
+            {{showPassword ? 'hide' : 'show'}}
+          </button>
+        </div>
         <div *ngIf="!password.valid && (!password.pristine || submitted)" class="form-error">
           Password is required.
         </div>

@@ -19,6 +19,8 @@ export class SignUpComponent implements OnInit {
   waiting = false;
   serverValidationError = '';
 
+  showPassword = false;
+
   constructor(private router: Router,
               private toastService: ToastService,
               private userService: UserService) { }
