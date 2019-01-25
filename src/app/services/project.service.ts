@@ -42,4 +42,8 @@ export class ProjectService {
                       return response['projects'] as Project[];
                     }));
   }
+
+  delete(project: Project): Observable<any> {
+    return this.http.delete(`${environment.apiUrl}/projects/${project.id}`);
+  }
 }
