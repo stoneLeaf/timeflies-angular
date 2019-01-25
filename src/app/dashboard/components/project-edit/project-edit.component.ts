@@ -58,7 +58,7 @@ export class ProjectEditComponent implements OnInit {
 
     this.projectService.update(project)
       .subscribe((serverProject: Project) => {
-        this.router.navigate(['projects']);
+        this.router.navigate(['/projects', project.id]);
         this.toastService.success(`Project '${serverProject.name}' successfully updated!`);
       },
       error => {
