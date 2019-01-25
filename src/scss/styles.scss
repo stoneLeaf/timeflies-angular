@@ -20,29 +20,35 @@ a {
 
 /* Buttons */
 
-@mixin button($color) {
-  border: 0.16em solid $color;
-  border-radius: 2em;
+@mixin button($color, $hollow: true) {
+  border: 2px solid $color;
+  border-radius: 4px;
   padding: 0.3em 1.2em;
-  text-shadow: 0 0.04em 0.04em #000000;
-  background-color: $color;
-  color: white;
   text-decoration: none;
   display: inline-block;
   white-space: nowrap;
+  @if $hollow {
+    color: black;
+  } @else {
+    background-color: $color;
+    color: white;
+  }
   &:hover {
+    color: white;
     background-color: lighten($color, 15%);
     text-decoration: none;
   }
   &:disabled {
     background-color: #858585;
     border-color: #424242;
+    color: white;
     cursor: wait;
   }
 }
 
+// To be used as a call to action
 .button-primary {
-  @include button($primary-color);
+  @include button($primary-color, false);
 }
 .button-secondary {
   @include button($secondary-color);
