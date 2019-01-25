@@ -15,7 +15,7 @@
   <h1>Manage your projects</h1>
   <div class="actions-bar">
     <input type="text" placeholder="Find a project...">
-    <a [ngClass]="projects?.length === 0 ? 'button-primary' : 'button-secondary'"
+    <a class="flex-vertical-center" [ngClass]="projects?.length === 0 ? 'button-primary' : 'button-secondary'"
        routerLink="/projects/new">New project</a>
   </div>
   <div class="project-list">
