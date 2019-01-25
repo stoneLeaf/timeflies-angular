@@ -23,7 +23,8 @@ a {
 button {
   background-color: transparent;
   color: inherit;
-  font-family: inherit;
+  font: inherit;
+  border: 0;
 }
 
 @mixin button($color, $hollow: true) {
