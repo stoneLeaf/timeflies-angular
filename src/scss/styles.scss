@@ -137,61 +137,54 @@ section {
   p {
     margin-bottom: 5px;
   }
-  .close-icon {
+  .icon-close {
     float: right;
   }
 }
 
 /** Icons */
 
-.close-icon {
-  margin: 0 0 5px;
-  height: 20px;
-  width: 20px;
-  background-image: url("/assets/images/icon_close.svg");
-  background-repeat: no-repeat;
-  background-origin: content-box;
-  padding: 6px;
-  border: 1px solid lightgrey;
-  border-radius: 20px;
-  transition: opacity 0.2s;
-  &:hover {
-    opacity: 0.5;
-    cursor: pointer;
-  }
-  &:active {
-    border-color: black;
-  }
-}
-@mixin action-icon($icon-url) {
-  display: inline-block;
-  border: 1px solid lightgrey;
-  border-radius: 5px;
-  width: 25px;
-  height: 25px;
-  padding: 3px;
-  opacity: 0.7;
-  background-image: url($icon-url);
+@mixin icon-commons($svg-url) {
+  box-sizing: border-box;
+  // Default icon size
+  height: 30px;
+  width: 30px;
+  background-image: url($svg-url);
   background-repeat: no-repeat;
   background-origin: content-box;
   background-size: cover;
-  transition: opacity 0.2s;
+  transition: all 0.2s;
+  border: 1px solid lightgrey;
+  opacity: 0.7;
   &:hover {
     opacity: 1;
-    border-color: black;
     cursor: pointer;
+    border-color: black;
   }
   &:active {
     background-color: lightgrey;
   }
 }
 
+@mixin icon-action-style() {
+  padding: 3px;
+  border-radius: 5px;
+}
+
+.icon-close {
+  @include icon-commons("/assets/images/icon_close.svg");
+  padding: 6px;
+  border-radius: 50%;
+}
+
 .icon-edit {
-  @include action-icon("/assets/images/icon_edit.svg");
+  @include icon-commons("/assets/images/icon_edit.svg");
+  @include icon-action-style();
 }
 
 .icon-delete {
-  @include action-icon("/assets/images/icon_delete.svg");
+  @include icon-commons("/assets/images/icon_delete.svg");
+  @include icon-action-style();
 }
 
 /** Misc */
