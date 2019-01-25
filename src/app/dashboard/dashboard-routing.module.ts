@@ -28,9 +28,9 @@ const routes: Routes = [
         },
         children: [
           { path: '', component: SummaryComponent },
+          { path: 'projects/new', component: ProjectNewComponent },
           { path: 'projects/:id', component: ProjectViewComponent },
           { path: 'projects/:id/edit', component: ProjectEditComponent },
-          { path: 'projects/new', component: ProjectNewComponent },
           { path: 'projects', component: ProjectsComponent },
           { path: '**', component: PageNotFoundComponent }
         ]
