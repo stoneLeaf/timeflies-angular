@@ -39,21 +39,7 @@ export class ProjectViewComponent implements OnInit {
     }));
   }
 
-  delete(project: Project) {
-    if (!confirm(`Are you sure you want to delete this project?`)) {
-      return;
-    }
-    this.projectService.delete(project).subscribe(
-      () => {
-        this.router.navigate(['/projects']);
-        this.toastService.success('Project successfully deleted.');
-      },
-      error => {
-        if (error instanceof NotFoundError) {
-          this.router.navigate(['/projects']);
-        } else {
-          this.toastService.warning(`Project could not be deleted (status ${error.status}).`);
-        }
-    });
+  onDelete() {
+    this.router.navigate(['/projects']);
   }
 }

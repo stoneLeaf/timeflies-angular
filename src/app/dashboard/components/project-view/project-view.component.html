@@ -11,10 +11,8 @@
           {{project.description | defaultValue:'No description.'}}
         </div>
       </div>
-      <div class="project-actions">
-        <a class="icon-edit" routerLink="/projects/{{project.id}}/edit"></a>
-        <div class="icon-delete" (click)="delete(project)"></div>
-      </div>
+      <app-project-actions-icons [project]="project" (deletion)="onDelete()">
+        </app-project-actions-icons>
     </div>
   </section>
   <section>
