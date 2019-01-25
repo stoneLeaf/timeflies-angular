@@ -20,6 +20,12 @@ a {
 
 /* Buttons */
 
+button {
+  background-color: transparent;
+  color: inherit;
+  font-family: inherit;
+}
+
 @mixin button($color, $hollow: true) {
   border: 2px solid $color;
   border-radius: 4px;
