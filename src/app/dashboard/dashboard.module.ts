@@ -15,6 +15,7 @@ import { ProjectsComponent } from './components/projects/projects.component';
 import { ProjectEditComponent } from './components/project-edit/project-edit.component';
 import { ProjectViewComponent } from './components/project-view/project-view.component';
 import { ProfileComponent } from './components/profile/profile.component';
+import { ProjectActionsIconsComponent } from './components/project-actions-icons/project-actions-icons.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { ProfileComponent } from './components/profile/profile.component';
     ProjectsComponent,
     ProjectEditComponent,
     ProjectViewComponent,
-    ProfileComponent
+    ProfileComponent,
+    ProjectActionsIconsComponent
   ],
   imports: [
     CommonModule,
