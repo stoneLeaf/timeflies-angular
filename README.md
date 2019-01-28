@@ -33,6 +33,7 @@ In the same fashion as with my [coding journey](https://github.com/stoneLeaf/cod
 6. [Authentication](#authentication)
 7. [The matcher trick](#the-matcher-trick)
 8. [Fixing redirect from guard](#fixing-redirect-from-guard)
+9. [Taking shape](#taking-shape)
 
 ### Tour of Cats
 
@@ -99,6 +100,14 @@ With the 7.1 Angular update came a [new feature](https://github.com/angular/angu
 To be specific, in case the returned `UrlTree` was the root url `/` and it was the first navigation request (as in the application is started on the guarded path), it would not redirect at all after the `NavigationCancel` event. The culprit was `router.navigated`, a boolean set to `true` when 'at least one navigation happened' as stated [internally](https://github.com/angular/angular/blob/eea2b0f288eec889d56afb07dad21f75e77f1241/packages/router/src/router.ts#L327). For some reason, in the piped `catchError` block handling the case where a guard returned a `UrlTree` to be used as a redirection, that boolean was invariably set to `true`. Then, when the router would process the new navigation, in that case the redirection to the root path, it would discard it as that path was considered already navigated to.
 
 I learned *a lot* in the process about both [VS Code debugging tools](https://code.visualstudio.com/docs/editor/debugging) and Angular's router inner workings. This led to my [first pull request on a project that size](https://github.com/angular/angular/pull/28271). Before committing the patch, I also had to set up the right environment for a local run of the *lengthy* [full Angular test suite](https://github.com/angular/angular/blob/d6cfe2ed7ef32b0cca9b164789473e12c385075e/docs/BAZEL.md). I ended up spending a lot more time than anticipated as I had to switch versions for some packages, install missing dependencies and use a whole new tool to me, [Bazel](https://bazel.build/).
+
+### Taking shape
+
+At that point, I had enough in place to be able to finally focus on component creation. It felt great to see my application getting its features implemented one-by-one. A good amount of work went into the layout design. I wanted the UI to look good and be well structured. My daily practice of CSS was really paying off as I was less and less prone to the trial and error approach and was able to write styles with more confidence.
+
+One key aspect of component design was finding a way to properly handle the flow of data between components. Apart from the use of services, one way to get data to a child component wasthe [Input decorator](https://angular.io/api/core/Input), and to the parent component, an [EventEmitter](https://angular.io/api/core/EventEmitter). Another key aspect was the proper handling of observables. For instance, to prevent memory leaks, it is good practice to unsubscribe on component destruction. That can become quite cumbersome when you have multiple subscriptions in a single component. With that in mind, I chose to make use of Angular's [async pipe](https://angular.io/api/common/AsyncPipe) as much as possible as it handles it automatically.
+
+Another feature I wanted to implement was a toast notification service. It was important to give feedback to user actions, and that was one way to do it. The service was just a single point of entry for broadcasting messages. Most of the logic came in a shared component which subscribed to the service stream. I chose to implement a queue system to ensure each message had a controllable lifetime and also added the option to make them either auto-dismissible or requiring a user action depending on the significance of the message.
 
 ## License
 
