@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { Observable, throwError } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { Project } from '../shared/models/project.model';
 import { environment } from 'src/environments/environment';
-import { NotFoundError } from '../shared/errors/not-found.error';
 
 @Injectable({
   providedIn: 'root'
