@@ -58,7 +58,6 @@ export class AuthService {
   }
 
   private gravatar(): string {
-    // TODO: add custom default image, see https://en.gravatar.com/site/implement/images/
     return `https://www.gravatar.com/avatar/${this._loggedInUser.hashedEmail}`;
   }
 
