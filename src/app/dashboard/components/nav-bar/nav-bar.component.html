@@ -13,21 +13,6 @@
         <li><a routerLink="/reports" routerLinkActive="active">Reports</a></li>
       </ul>
     </div>
-    <div class="right-controls">
-      <div class="dropdown">
-        <div class="account">
-          <div class="avatar-wrapper"><img src="{{user.gravatar}}?s=30&d=blank"></div>
-          {{user.email}}
-        </div>
-        <ul>
-          <li><span>{{user.name}}</span></li>
-          <li><hr></li>
-          <li><a routerLink="/profile">Profile</a></li>
-          <li><a routerLink="/preferences">Preferences</a></li>
-          <li><hr></li>
-          <li><a (click)="logOut()">Log out</a></li>
-        </ul>
-      </div>
-    </div>
+    <app-account-panel></app-account-panel>
   </div>
 </nav>
