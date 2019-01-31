@@ -7,75 +7,77 @@ a {
 
 .wrapper {
   position: relative;
-  .account {
-    border: 1px solid grey;
-    border-radius: 5px;
-    padding: 4px;
-    margin: 10px 0 6px;
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    .avatar-wrapper {
-      display: flex;
-      align-items: center;
-      position: relative;
-      margin: 0;
-      padding: 0;
-      margin-right: 6px;
-      background: url("/assets/images/default_avatar.svg") no-repeat;
-      background-origin: content-box;
-      background-size: contain;
-      img {
-        border: 1px solid grey;
-        border-radius: 5px;
-      }
-    }
+}
+
+.account {
+  border: 1px solid grey;
+  border-radius: 5px;
+  padding: 4px;
+  margin: 10px 0 6px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  &:hover {
+    opacity: 0.8;
   }
 }
 
-.dropdown {
-  > :first-child {
-    &::after {
-      content: '';
-      display: inline-block;
-      border: 5px solid transparent;
-      border-top-color: black;
-      margin: 6px;
-      margin-top: 12px;
-    }
-  }
-  ul {
-    z-index: 2;
-    position: absolute;
-    top: 45px;
-    background-color: white;
-    list-style-type: none;
+.avatar-wrapper {
+  display: flex;
+  align-items: center;
+  position: relative;
+  margin: 0;
+  padding: 0;
+  margin-right: 6px;
+  background: url("/assets/images/default_avatar.svg") no-repeat;
+  background-origin: content-box;
+  background-size: contain;
+  img {
     border: 1px solid grey;
-    border-radius: 3px;
-    box-shadow: 1px 1px 5px 0 rgb(224, 224, 224);
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    box-sizing: border-box;
-    animation-name: fade-in;
-    animation-duration: 0.3s;
+    border-radius: 5px;
   }
-  li {
-    hr {
-      margin: 0;
-      border: 0;
-      height: 1px;
-      background-color: grey;
-    }
-    a, span {
-      display: block;
-      padding: 7px 10px;
-    }
-    a {
-      display: block;
-      &:hover {
-        background-color: rgb(209, 209, 209);
-      }
+}
+
+.dropdown-icon {
+  display: inline-block;
+  border: 5px solid transparent;
+  border-top-color: black;
+  margin: 6px;
+  margin-top: 12px;
+}
+
+ul {
+  z-index: 2;
+  position: absolute;
+  top: 45px;
+  background-color: white;
+  list-style-type: none;
+  border: 1px solid grey;
+  border-radius: 3px;
+  box-shadow: 1px 1px 5px 0 rgb(224, 224, 224);
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  box-sizing: border-box;
+  animation-name: fade-in;
+  animation-duration: 0.3s;
+}
+
+li {
+  hr {
+    margin: 0;
+    border: 0;
+    height: 1px;
+    background-color: grey;
+  }
+  a, span {
+    display: block;
+    padding: 7px 10px;
+  }
+  a {
+    display: block;
+    &:hover {
+      background-color: rgb(209, 209, 209);
     }
   }
 }
