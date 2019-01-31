@@ -3,18 +3,21 @@ import { CommonModule } from '@angular/common';
 
 import { ToastMessagesComponent } from './components/toast-messages/toast-messages.component';
 import { DefaultValuePipe } from './pipes/default-value.pipe';
+import { TimerDisplayPipe } from './pipes/timer-display.pipe';
 
 @NgModule({
   declarations: [
     ToastMessagesComponent,
-    DefaultValuePipe
+    DefaultValuePipe,
+    TimerDisplayPipe
   ],
   imports: [
     CommonModule
   ],
   exports: [
     ToastMessagesComponent,
-    DefaultValuePipe
+    DefaultValuePipe,
+    TimerDisplayPipe
   ]
 })
 export class SharedModule { }
