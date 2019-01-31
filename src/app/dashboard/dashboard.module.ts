@@ -17,6 +17,7 @@ import { ProjectViewComponent } from './components/project-view/project-view.com
 import { ProfileComponent } from './components/profile/profile.component';
 import { ProjectActionsIconsComponent } from './components/project-actions-icons/project-actions-icons.component';
 import { ActivityPanelComponent } from './components/activity-panel/activity-panel.component';
+import { AccountPanelComponent } from './components/account-panel/account-panel.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { ActivityPanelComponent } from './components/activity-panel/activity-pan
     ProjectViewComponent,
     ProfileComponent,
     ProjectActionsIconsComponent,
-    ActivityPanelComponent
+    ActivityPanelComponent,
+    AccountPanelComponent
   ],
   imports: [
     CommonModule,
