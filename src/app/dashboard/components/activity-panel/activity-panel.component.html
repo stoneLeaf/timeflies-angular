@@ -1,0 +1,28 @@
+<div>
+  <div *ngIf="(runningActivity$ | async) as activity; else record" class="wrapper">
+    <div class="record-infos">Recording {{(timer$ | async) | timerDisplay}}</div>
+    <button class="stop-button" (click)="stop(activity)">Stop</button>
+  </div>
+  <ng-template #record>
+    <div class="wrapper">
+      <button class="button-primary" (click)="showProjects()">Record &#9632;</button>
+    </div>
+    <ul *ngIf="projectsVisible">
+      <li><span>Choose a project</span></li>
+      <li><hr></li>
+      <div *ngIf="(projects$ | async) as projects; else loading">
+        <li *ngIf="!projects || projects.length === 0">
+          <span class="greyed">No project</span>
+        </li>
+        <li *ngFor="let project of projects">
+          <a (click)="recordIn(project)">{{project.name}}</a>
+        </li>
+      </div>
+      <ng-template #loading>
+        <li class="flex-horizontal-center"><div class="spinner"></div></li>
+      </ng-template>
+      <li><hr></li>
+      <li><a (click)="newProject()">Add project...</a></li>
+    </ul>
+  </ng-template>
+</div>

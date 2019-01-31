@@ -16,6 +16,7 @@ import { ProjectEditComponent } from './components/project-edit/project-edit.com
 import { ProjectViewComponent } from './components/project-view/project-view.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { ProjectActionsIconsComponent } from './components/project-actions-icons/project-actions-icons.component';
+import { ActivityPanelComponent } from './components/activity-panel/activity-panel.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { ProjectActionsIconsComponent } from './components/project-actions-icons
     ProjectEditComponent,
     ProjectViewComponent,
     ProfileComponent,
-    ProjectActionsIconsComponent
+    ProjectActionsIconsComponent,
+    ActivityPanelComponent
   ],
   imports: [
     CommonModule,
