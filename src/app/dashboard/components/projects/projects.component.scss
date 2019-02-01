@@ -27,25 +27,3 @@
     padding: 30px;
   }
 }
-
-.empty-row {
-  display: flex;
-  justify-content: center;
-}
-
-.project {
-  display: flex;
-  justify-content: space-between;
-  padding: 10px;
-}
-
-.project-infos {
-  h3 {
-    margin-top: 0;
-  }
-}
-
-.description {
-  color: grey;
-  font-style: italic;
-}
