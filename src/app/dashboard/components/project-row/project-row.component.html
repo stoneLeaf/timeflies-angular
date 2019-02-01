@@ -2,8 +2,15 @@
   <div>
     <div class="name"><a routerLink="/projects/{{project.id}}">{{project.name}}</a></div>
     <div class="description">{{project.description | defaultValue:'No description'}}</div>
-    <div>Last activity 2 days ago.</div>
+    <div>
+      <div *ngIf="lastActivityDate$ | async as lastActivityDate; else loading">
+          {{lastActivityDate ? 'Last activity ' + (lastActivityDate | timeAgo) : 'No activities recorded'}}.
+      </div>
+      <ng-template #loading>
+        ...
+      </ng-template>
+    </div>
   </div>
   <app-project-actions-icons [project]="project"
-  (deletion)="onDelete(project)"></app-project-actions-icons>
+                             (deletion)="onDelete(project)"></app-project-actions-icons>
 </div>

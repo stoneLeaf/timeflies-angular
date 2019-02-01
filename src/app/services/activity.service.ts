@@ -86,4 +86,15 @@ export class ActivityService {
     }
     return this.http.delete(`${environment.apiUrl}/activities/${activity.id}`);
   }
+
+  getLastFor(project: Project): Observable<Activity> {
+    const params = { 'limit': '1', 'offset': '0' };
+    return this.http.get(`${environment.apiUrl}/projects/${project.id}/activities`, { params: params })
+                    .pipe(map(response => {
+                      if (response['activities'].length > 0) {
+                        return response['activities'][0] as Activity;
+                      }
+                      return undefined;
+                    }));
+  }
 }
