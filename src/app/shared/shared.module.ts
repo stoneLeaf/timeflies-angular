@@ -5,13 +5,15 @@ import { ToastMessagesComponent } from './components/toast-messages/toast-messag
 import { DefaultValuePipe } from './pipes/default-value.pipe';
 import { TimerDisplayPipe } from './pipes/timer-display.pipe';
 import { TimeAgoPipe } from './pipes/time-ago.pipe';
+import { DurationPipe } from './pipes/duration.pipe';
 
 @NgModule({
   declarations: [
     ToastMessagesComponent,
     DefaultValuePipe,
     TimerDisplayPipe,
-    TimeAgoPipe
+    TimeAgoPipe,
+    DurationPipe
   ],
   imports: [
     CommonModule
@@ -20,7 +22,8 @@ import { TimeAgoPipe } from './pipes/time-ago.pipe';
     ToastMessagesComponent,
     DefaultValuePipe,
     TimerDisplayPipe,
-    TimeAgoPipe
+    TimeAgoPipe,
+    DurationPipe
   ]
 })
 export class SharedModule { }
