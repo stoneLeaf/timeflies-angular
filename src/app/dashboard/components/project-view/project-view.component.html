@@ -11,15 +11,26 @@
           {{project.description | defaultValue:'No description.'}}
         </div>
       </div>
-      <app-project-actions-icons [project]="project" (deletion)="onDelete()">
-        </app-project-actions-icons>
+      <app-project-actions-icons [project]="project" (deletion)="onProjectDelete()">
+      </app-project-actions-icons>
     </div>
   </section>
   <section>
-    <h1>Project activities</h1>
-    <div>
-      There are no recorded activities yet.
+    <h1>Last activities</h1>
+    <div *ngIf="activities; else activitiesLoading">
+      <div>
+        <app-activity-row  *ngFor="let activity of activities" [activity]="activity"
+                           (deletion)="onActivityDelete(activity)"></app-activity-row>
+      </div>
+      <div *ngIf="activities.length === 0" class="flex-horizontal-center">
+          There are no recorded activities yet.
+      </div>
     </div>
+    <ng-template #activitiesLoading>
+      <div class="flex-horizontal-center">
+        <div class="spinner"></div>
+      </div>
+    </ng-template>
   </section>
 </div>
 <ng-template #loading>

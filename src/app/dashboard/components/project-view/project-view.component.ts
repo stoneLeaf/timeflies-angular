@@ -2,14 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { Observable, throwError } from 'rxjs';
-import { switchMap, catchError } from 'rxjs/operators';
+import { switchMap, catchError, tap } from 'rxjs/operators';
 
 import { ProjectService } from 'src/app/services/project.service';
+import { ActivityService } from 'src/app/services/activity.service';
 import { ToastService } from 'src/app/services/toast.service';
 
 import { NotFoundError } from 'src/app/shared/errors/not-found.error';
 
 import { Project } from 'src/app/shared/models/project.model';
+import { Activity } from 'src/app/shared/models/activity.model';
 
 @Component({
   selector: 'app-project-view',
@@ -18,15 +20,23 @@ import { Project } from 'src/app/shared/models/project.model';
 })
 export class ProjectViewComponent implements OnInit {
   project$: Observable<Project>;
+  activities: Activity[];
 
   constructor(private route: ActivatedRoute,
               private router: Router,
               private toastService: ToastService,
-              private projectService: ProjectService) { }
+              private projectService: ProjectService,
+              private activitiesService: ActivityService) { }
 
   ngOnInit() {
     this.project$ = this.route.paramMap.pipe(switchMap(params => {
       return this.projectService.getById(params.get('id')).pipe(
+        tap(project => {
+          // TODO: unsubscribe
+          this.activitiesService.getFromProject(project).subscribe(activities => {
+            this.activities = activities;
+          });
+        }),
         // TODO: not DRY, same pattern in ProjectEditComponent
         catchError(error => {
           if (error instanceof NotFoundError) {
@@ -39,7 +49,14 @@ export class ProjectViewComponent implements OnInit {
     }));
   }
 
-  onDelete() {
+  onProjectDelete() {
     this.router.navigate(['/projects']);
+  }
+
+  onActivityDelete(activityToDelete: Activity) {
+    this.activitiesService.delete(activityToDelete).subscribe(_ => {
+      this.activities = this.activities.filter(activity => activity.id !== activityToDelete.id);
+      this.toastService.success('Activity successfully deleted.');
+    });
   }
 }
