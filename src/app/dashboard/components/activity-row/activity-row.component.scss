@@ -1,0 +1,19 @@
+@import 'variables';
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px;
+  border-bottom: 1px solid lightgrey;
+}
+
+.date {
+  font-style: italic;
+}
+
+.duration {
+  border: 1px solid $secondary-color;
+  border-radius: 5px;
+  padding: 4px;
+}
