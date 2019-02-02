@@ -13,7 +13,7 @@ import { NotFoundError } from 'src/app/shared/errors/not-found.error';
 })
 export class ProjectActionsIconsComponent {
   @Input() project: Project;
-  @Output() deletion = new EventEmitter<true>();
+  @Output() deletion = new EventEmitter<boolean>();
 
   constructor(private projectService: ProjectService,
               private toastService: ToastService) { }
