@@ -205,7 +205,7 @@ section {
   }
 }
 
-/** Misc */
+/** Loading elements */
 
 .spinner {
   display: inline-block;
@@ -228,5 +228,37 @@ section {
   }
   to {
     transform: rotate(360deg);
+  }
+}
+
+.loading-dots-suffix:after {
+  content: '.';
+  animation: loading-dots 1.2s infinite;
+}
+
+@keyframes loading-dots {
+  0%, 15%, 100% {
+    color: rgba(0,0,0,0);
+    text-shadow:
+    .3em 0 0 rgba(0,0,0,0),
+    .6em 0 0 rgba(0,0,0,0);
+  }
+  35% {
+    color: inherit;
+    text-shadow:
+    .3em 0 0 rgba(0,0,0,0),
+    .6em 0 0 rgba(0,0,0,0);
+  }
+  55% {
+    color: inherit;
+    text-shadow:
+    .3em 0 0 currentColor,
+    .6em 0 0 rgba(0,0,0,0);
+  }
+  75% {
+    color: inherit;
+    text-shadow:
+    .3em 0 0 currentColor,
+    .6em 0 0 currentColor;
   }
 }
