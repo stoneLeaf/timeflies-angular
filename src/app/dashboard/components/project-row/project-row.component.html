@@ -3,12 +3,13 @@
     <div class="name"><a routerLink="/projects/{{project.id}}">{{project.name}}</a></div>
     <div class="description">{{project.description | defaultValue:'No description'}}</div>
     <div>
-      <div *ngIf="lastActivityDate$ | async as lastActivityDate; else loading">
-          {{lastActivityDate ? 'Last activity ' + (lastActivityDate | timeAgo) : 'No activities recorded'}}.
+      <div *ngIf="(lastActivityDate$ | async) as lastActivityDate">
+          Last activity {{lastActivityDate | timeAgo}}.
       </div>
-      <ng-template #loading>
-        ...
-      </ng-template>
+      <div *ngIf="noActivity">
+          No activities recorded.
+      </div>
+      <div *ngIf="loadingActivity" class="loading-dots-suffix">Fetching last activity</div>
     </div>
   </div>
   <app-project-actions-icons [project]="project"

@@ -14,17 +14,24 @@ import { ActivityService } from 'src/app/services/activity.service';
 export class ProjectRowComponent implements OnInit  {
   @Input() project: Project;
 
-  lastActivity: Date;
   lastActivityDate$: Observable<Date>;
+
+  // Had to use these booleans to be able to discriminate between loading,
+  // no last activity and last activity found. The ngIf & async pipe were not
+  // enough as it does not differentiate between null and undefined for instance.
+  loadingActivity = true;
+  noActivity = false;
 
   constructor(private activityService: ActivityService) { }
 
   ngOnInit() {
     this.lastActivityDate$ = this.activityService.getLastFor(this.project).pipe(
       switchMap(activity => {
+        this.loadingActivity = false;
         if (activity) {
           return of(new Date(activity.startDate));
         }
+        this.noActivity = true;
         return of();
       }
     ));
