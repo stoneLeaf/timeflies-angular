@@ -15,10 +15,10 @@ export class StatService {
   constructor(private http: HttpClient) { }
 
   getForAllProjects(firstDay?: Date, lastDay?: Date): Observable<ProjectStat> {
-    return this.getForProjectId(null, firstDay, lastDay);
+    return this.getForProject(null, firstDay, lastDay);
   }
 
-  getForProjectId(project: Project, firstDay?: Date, lastDay?: Date): Observable<ProjectStat> {
+  getForProject(project: Project, firstDay?: Date, lastDay?: Date): Observable<ProjectStat> {
     const params = {};
     if (firstDay && lastDay) {
       params['firstDay'] = firstDay.getTime();
