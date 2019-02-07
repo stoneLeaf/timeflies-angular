@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { SharedModule } from '../shared/shared.module';
@@ -43,6 +44,7 @@ import { ActivityRowComponent } from './components/activity-row/activity-row.com
     CommonModule,
     DashboardRoutingModule,
     FormsModule,
+    NgxChartsModule,
     SharedModule
   ]
 })
