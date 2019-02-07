@@ -5,7 +5,24 @@
 </div>
 <section>
   <h3>Activity during the last 7 days</h3>
-  This area should display a graph of the last 7 days with activity in hours on the y axis.
+  <div *ngIf="last7DaysData$ | async as last7DaysData; else loadingChart"><ngx-charts-bar-vertical
+      [results]="last7DaysData"
+      [scheme]="{ domain: ['#61AAA3', '#61AAA3', '#61AAA3', '#61AAA3', '#61AAA3', '#61AAA3', '#B84D4D'] }"
+      [xAxis]="true"
+      [yAxis]="true"
+      [legend]="false"
+      [showXAxisLabel]="false"
+      [showYAxisLabel]="true"
+      [yAxisTicks]="[0, 4, 8, 12, 16]"
+      [yScaleMax]="16"
+      yAxisLabel="Activity (hours)">
+      <ng-template #tooltipTemplate let-model="model">
+        {{model.value * 3600 | duration}}
+    </ng-template>
+  </ngx-charts-bar-vertical></div>
+  <ng-template #loadingChart>
+    <div class="flex-horizontal-center"><div class="spinner"></div></div>
+  </ng-template>
 </section>
 <section>
   <h3>Your top projects</h3>
