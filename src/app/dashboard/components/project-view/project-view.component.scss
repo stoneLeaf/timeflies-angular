@@ -16,3 +16,10 @@
 ::ng-deep svg.ngx-charts { 
   float: none !important;
 }
+
+.loading-graph {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 165px;
+}
