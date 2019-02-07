@@ -16,14 +16,37 @@
     </div>
   </section>
   <section>
+    <h1>Activity during the last 30 days</h1>
+    <div *ngIf="last30DaysData$ | async as last30DaysData; else loadingChart"><ngx-charts-bar-vertical
+      [results]="last30DaysData"
+      [scheme]="{ domain: ['#61AAA3'] }"
+      [xAxis]="true"
+      [yAxis]="true"
+      [legend]="false"
+      [showXAxisLabel]="false"
+      [showYAxisLabel]="true"
+      [yAxisTicks]="[0, 4, 8, 12]"
+      [yScaleMax]="12"
+      [roundEdges]="false"
+      [animations]="false"
+      yAxisLabel="Activity (hours)">
+      <ng-template #tooltipTemplate let-model="model">
+        {{model.value * 3600 | duration}}
+      </ng-template>
+    </ngx-charts-bar-vertical></div>
+    <ng-template #loadingChart>
+      <div class="flex-horizontal-center"><div class="spinner"></div></div>
+    </ng-template>
+  </section>
+  <section>
     <h1>Last activities</h1>
     <div *ngIf="activities; else activitiesLoading">
       <div>
         <app-activity-row  *ngFor="let activity of activities" [activity]="activity"
-                           (deletion)="onActivityDelete(activity)"></app-activity-row>
+        (deletion)="onActivityDelete(activity)"></app-activity-row>
       </div>
       <div *ngIf="activities.length === 0" class="flex-horizontal-center">
-          There are no recorded activities yet.
+        There are no recorded activities yet.
       </div>
     </div>
     <ng-template #activitiesLoading>

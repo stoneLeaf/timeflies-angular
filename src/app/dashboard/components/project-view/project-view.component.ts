@@ -1,17 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { Observable, throwError } from 'rxjs';
+import { Observable, throwError, of } from 'rxjs';
 import { switchMap, catchError, tap } from 'rxjs/operators';
 
 import { ProjectService } from 'src/app/services/project.service';
 import { ActivityService } from 'src/app/services/activity.service';
 import { ToastService } from 'src/app/services/toast.service';
+import { StatService } from 'src/app/services/stat.service';
 
 import { NotFoundError } from 'src/app/shared/errors/not-found.error';
 
 import { Project } from 'src/app/shared/models/project.model';
 import { Activity } from 'src/app/shared/models/activity.model';
+import { ProjectStat } from 'src/app/shared/models/project-stat.model';
 
 @Component({
   selector: 'app-project-view',
@@ -22,11 +24,14 @@ export class ProjectViewComponent implements OnInit {
   project$: Observable<Project>;
   activities: Activity[];
 
+  last30DaysData$: Observable<any[]>;
+
   constructor(private route: ActivatedRoute,
               private router: Router,
               private toastService: ToastService,
               private projectService: ProjectService,
-              private activitiesService: ActivityService) { }
+              private activitiesService: ActivityService,
+              private statService: StatService) { }
 
   ngOnInit() {
     this.project$ = this.route.paramMap.pipe(switchMap(params => {
@@ -36,6 +41,18 @@ export class ProjectViewComponent implements OnInit {
           this.activitiesService.getFromProject(project).subscribe(activities => {
             this.activities = activities;
           });
+
+          // Retrieving project stats
+          const endDay = new Date();
+          const startDay = new Date(new Date().setDate(endDay.getDate() - 29));
+          this.last30DaysData$ = this.statService.getForProject(project, startDay, endDay).pipe(
+            switchMap((globalStats: ProjectStat) => {
+              const single = [];
+              for (const day of globalStats.days) {
+                single.push({ name: new Date(day.day).toLocaleDateString(), value: (day.timeCount / 3600) });
+              }
+              return of(single);
+          }));
         }),
         // TODO: not DRY, same pattern in ProjectEditComponent
         catchError(error => {

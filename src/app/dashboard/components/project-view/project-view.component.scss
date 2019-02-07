@@ -12,3 +12,7 @@
   display: flex;
   justify-content: space-between;
 }
+
+::ng-deep svg.ngx-charts { 
+  float: none !important;
+}
