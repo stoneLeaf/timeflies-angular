@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { NgForm } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+
+import { ToastService } from 'src/app/services/toast.service';
+import { UserService } from 'src/app/services/user.service';
 
 import { User } from 'src/app/shared/models/user.model';
-import { UserService } from 'src/app/services/user.service';
 import { ValidationError } from 'src/app/shared/errors/validation.error';
-import { ToastService } from 'src/app/services/toast.service';
+
 
 @Component({
   selector: 'app-sign-up',
@@ -13,7 +15,7 @@ import { ToastService } from 'src/app/services/toast.service';
   styleUrls: ['./sign-up.component.scss']
 })
 export class SignUpComponent implements OnInit {
-  user: User;
+  signupForm: FormGroup;
 
   submitted = false;
   waiting = false;
@@ -23,23 +25,37 @@ export class SignUpComponent implements OnInit {
 
   constructor(private router: Router,
               private toastService: ToastService,
-              private userService: UserService) { }
+              private userService: UserService,
+              private formBuilder: FormBuilder) { }
 
   ngOnInit() {
-    this.user = new User();
+    this.signupForm = this.formBuilder.group({
+      'name': ['', [Validators.required,
+                   Validators.maxLength(50)]],
+      'email': ['', [Validators.required,
+                    Validators.email]],
+      'password': ['', [Validators.required,
+                       Validators.minLength(8),
+                       Validators.maxLength(30),
+                       Validators.pattern(/^\S+$/)]]
+    });
   }
 
-  onSubmit(signupForm: NgForm) {
+  get f() {
+    return this.signupForm.controls;
+  }
+
+  onSubmit() {
     this.submitted = true;
 
-    if (signupForm.invalid) {
+    if (this.signupForm.invalid) {
       return;
     }
 
     this.serverValidationError = '';
     this.waiting = true;
 
-    this.userService.create(this.user)
+    this.userService.create(this.signupForm.value as User)
                     .subscribe((user: User) => {
                       this.router.navigate(['log_in']);
                       this.toastService.success('Account created! You may now log in.');
@@ -52,7 +68,7 @@ export class SignUpComponent implements OnInit {
                         this.serverValidationError = error.message;
                       }
                       this.waiting = false;
-                      signupForm.controls['password'].reset();
+                      this.signupForm.controls.password.reset();
                     });
   }
 }

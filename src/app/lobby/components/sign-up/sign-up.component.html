@@ -2,7 +2,7 @@
   <div class="form-container">
     <h1>Sign up for free</h1>
     <h3>It will only take a few seconds.</h3>
-    <form #signupForm="ngForm">
+    <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
       <div *ngIf="serverValidationError" class="form-element">
         <div class="form-error">
           {{serverValidationError}}
@@ -10,36 +10,40 @@
       </div>
       <div class="form-element">
         <label for="name">Name</label>
-        <input type="text" id="name" name="name" [(ngModel)]="user.name"
-               autocomplete="off" spellcheck="false" required #name="ngModel">
-        <div *ngIf="!name.valid && (!name.pristine || submitted)" class="form-error">
-          Name is required.
+        <input type="text" id="name" formControlName="name"
+               autocomplete="off" spellcheck="false">
+        <div *ngIf="f.name.invalid && (f.name.touched || submitted)" class="form-error">
+          <div *ngIf="f.name.errors.required">A name is required.</div>
+          <div *ngIf="f.name.errors.maxlength">The name is too long.</div>
         </div>
       </div>
       <div class="form-element">
         <label for="email">Email address</label>
-        <input type="text" id="email" name="email" [(ngModel)]="user.email"
-               autocomplete="off" spellcheck="false" required #email="ngModel">
-        <div *ngIf="!email.valid && (!email.pristine || submitted)" class="form-error">
-          Email is required.
+        <input type="text" id="email" formControlName="email"
+               autocomplete="off" spellcheck="false">
+        <div *ngIf="f.email.invalid && (f.email.touched || submitted)" class="form-error">
+          <div *ngIf="f.email.errors.required">An email is required.</div>
+          <div *ngIf="f.email.errors.email">The email must be valid.</div>
         </div>
       </div>
       <div class="form-element">
         <label for="password">Password</label>
         <div class="password-container">
-          <input type="{{showPassword ? 'text' : 'password'}}" id="password" name="password" [(ngModel)]="user.password"
-                required #password="ngModel">
+          <input type="{{showPassword ? 'text' : 'password'}}" id="password"
+                 formControlName="password">
           <button class="password-visibility"
             (click)="showPassword ? showPassword = false : showPassword = true">
             {{showPassword ? 'hide' : 'show'}}
           </button>
         </div>
-        <div *ngIf="!password.valid && (!password.pristine || submitted)" class="form-error">
-          Password is required.
+        <div *ngIf="f.password.invalid && (f.password.touched || submitted)" class="form-error">
+          <div *ngIf="f.password.errors.required">A password is required.</div>
+          <div *ngIf="f.password.errors.minlength || f.password.errors.maxlength">The password must be between 8 and 30 characters long.</div>
+          <div *ngIf="f.password.errors.pattern">The password cannot contain spaces.</div>
         </div>
       </div>
       <div class="form-element form-actions">
-        <button (click)="onSubmit(signupForm)" [disabled]="waiting" class="button-primary">Sign up</button>
+        <button [disabled]="waiting" class="button-primary">Sign up</button>
       </div>
     </form>
   </div>
