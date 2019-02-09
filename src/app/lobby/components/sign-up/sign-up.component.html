@@ -31,7 +31,7 @@
         <div class="password-container">
           <input type="{{showPassword ? 'text' : 'password'}}" id="password"
                  formControlName="password">
-          <button class="password-visibility"
+          <button type="button" class="password-visibility"
             (click)="showPassword ? showPassword = false : showPassword = true">
             {{showPassword ? 'hide' : 'show'}}
           </button>
