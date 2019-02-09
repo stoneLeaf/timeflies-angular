@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { NgForm } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+
+import { ToastService } from 'src/app/services/toast.service';
+import { ProjectService } from 'src/app/services/project.service';
 
 import { Project } from 'src/app/shared/models/project.model';
-import { ProjectService } from 'src/app/services/project.service';
 import { ValidationError } from 'src/app/shared/errors/validation.error';
-import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'app-project-new',
@@ -13,30 +14,41 @@ import { ToastService } from 'src/app/services/toast.service';
   styleUrls: ['./project-new.component.scss']
 })
 export class ProjectNewComponent implements OnInit {
-  project: Project;
+  projectForm: FormGroup;
+
   serverValidationError = '';
   waiting = false;
   submitted = false;
 
   constructor(private router: Router,
+              private formBuilder: FormBuilder,
               private toastService: ToastService,
               private projectService: ProjectService) { }
 
-  ngOnInit() {
-    this.project = new Project();
+  get f() {
+    return this.projectForm.controls;
   }
 
-  onSubmit(projectForm: NgForm) {
+  ngOnInit() {
+    this.projectForm = this.formBuilder.group({
+      'name': ['', [Validators.required,
+                    Validators.minLength(2),
+                    Validators.maxLength(100)]],
+      'description': ['', Validators.maxLength(255)]
+    });
+  }
+
+  onSubmit() {
     this.submitted = true;
 
-    if (projectForm.invalid) {
+    if (this.projectForm.invalid) {
       return;
     }
 
     this.serverValidationError = '';
     this.waiting = true;
 
-    this.projectService.create(this.project)
+    this.projectService.create(this.projectForm.value as Project)
       .subscribe((project: Project) => {
         this.router.navigate(['projects', project.id]);
         this.toastService.success(`Project '${project.name}' successfully created!`);
