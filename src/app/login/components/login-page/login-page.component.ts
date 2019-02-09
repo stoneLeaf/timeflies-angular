@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { AuthService } from 'src/app/services/auth.service';
 import { ValidationError } from 'src/app/shared/errors/validation.error';
@@ -10,37 +10,46 @@ import { ValidationError } from 'src/app/shared/errors/validation.error';
   templateUrl: './login-page.component.html',
   styleUrls: ['./login-page.component.scss']
 })
-export class LoginPageComponent {
+export class LoginPageComponent implements OnInit {
+  loginForm: FormGroup;
+
   submitted = false;
   waiting = false;
   badCredentials = false;
 
-  credentials = {
-    email: '',
-    password: ''
-  };
-
   constructor(private router: Router,
+              private formBuilder: FormBuilder,
               private authService: AuthService) { }
 
-  onSubmit(loginForm: NgForm) {
+  ngOnInit() {
+    this.loginForm = this.formBuilder.group({
+      'email': ['', Validators.required],
+      'password': ['', Validators.required]
+    });
+  }
+
+  get f() {
+    return this.loginForm.controls;
+  }
+
+  onSubmit() {
     this.badCredentials = false;
     this.submitted = true;
 
-    if (loginForm.invalid) {
+    if (this.loginForm.invalid) {
       return;
     }
 
     this.waiting = true;
 
-    this.authService.logIn(this.credentials.email, this.credentials.password)
+    this.authService.logIn(this.f.email.value, this.f.password.value)
                     .subscribe(
-                      () => { this.onLoginNavigation(); },
+                      _ => { this.onLoginNavigation(); },
                       error => {
                         if (error instanceof ValidationError) {
                           this.submitted = false;
                           this.badCredentials = true;
-                          loginForm.reset();
+                          this.loginForm.reset();
                         }
                         this.waiting = false;
                     });
