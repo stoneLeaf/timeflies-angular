@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 
 import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
@@ -13,6 +13,7 @@ import { ActivityService } from 'src/app/services/activity.service';
 })
 export class ProjectRowComponent implements OnInit  {
   @Input() project: Project;
+  @Output() deletion = new EventEmitter<boolean>();
 
   lastActivityDate$: Observable<Date>;
 
@@ -35,5 +36,9 @@ export class ProjectRowComponent implements OnInit  {
         return of();
       }
     ));
+  }
+
+  onDelete() {
+    this.deletion.emit(true);
   }
 }

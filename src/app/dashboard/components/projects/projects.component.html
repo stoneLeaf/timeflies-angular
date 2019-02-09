@@ -27,7 +27,7 @@
         No projects yet!
       </li>
       <li *ngFor="let project of projects" class="project">
-        <app-project-row [project]="project"></app-project-row>
+        <app-project-row [project]="project" (deletion)="onDelete(project)"></app-project-row>
       </li>
     </ul>
   </div>
