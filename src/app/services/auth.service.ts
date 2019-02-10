@@ -67,7 +67,6 @@ export class AuthService {
   private extractUserFromPayload() {
     this._loggedInUser = { profile: this._jwtHelper.decodeToken(this.getToken())['profile'] } as User;
     this._loggedInUser.gravatar = this.gravatar();
-    console.log(this._loggedInUser);
   }
 
   private gravatar(): string {
