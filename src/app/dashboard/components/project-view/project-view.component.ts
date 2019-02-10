@@ -76,4 +76,8 @@ export class ProjectViewComponent implements OnInit {
       this.toastService.success('Activity successfully deleted.');
     });
   }
+
+  formatYAxisTick(hour: number) {
+    return `${hour}h`;
+  }
 }

@@ -23,9 +23,14 @@ export class SummaryComponent implements OnInit {
       switchMap((globalStats: ProjectStat) => {
         const single = [];
         for (const day of globalStats.days) {
-          single.push({ name: new Date(day.day).toLocaleDateString(), value: (day.timeCount / 3600) });
+          const value = (day.timeCount / 3600);
+          single.push({ name: new Date(day.day).toLocaleDateString(), value: value });
         }
         return of(single);
     }));
+  }
+
+  formatYAxisTick(hour: number) {
+    return `${hour}h`;
   }
 }
