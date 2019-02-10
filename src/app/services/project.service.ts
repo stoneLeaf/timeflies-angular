@@ -35,8 +35,8 @@ export class ProjectService {
                     }));
   }
 
-  getAll(): Observable<Project[]> {
-    return this.http.get(`${environment.apiUrl}/projects`)
+  getAll(filters?: any): Observable<Project[]> {
+    return this.http.get(`${environment.apiUrl}/projects`, { params: filters })
                     .pipe(map(response => {
                       return response['projects'] as Project[];
                     }));
