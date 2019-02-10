@@ -21,6 +21,7 @@ import { ActivityPanelComponent } from './components/activity-panel/activity-pan
 import { AccountPanelComponent } from './components/account-panel/account-panel.component';
 import { ProjectRowComponent } from './components/project-row/project-row.component';
 import { ActivityRowComponent } from './components/activity-row/activity-row.component';
+import { ProjectFormComponent } from './components/project-form/project-form.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { ActivityRowComponent } from './components/activity-row/activity-row.com
     ActivityPanelComponent,
     AccountPanelComponent,
     ProjectRowComponent,
-    ActivityRowComponent
+    ActivityRowComponent,
+    ProjectFormComponent
   ],
   imports: [
     CommonModule,
