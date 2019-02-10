@@ -8,22 +8,24 @@
           {{serverValidationError}}
         </div>
       </div>
-      <div class="form-element">
-        <label for="name">Name</label>
-        <input type="text" id="name" formControlName="name"
-               autocomplete="off" spellcheck="false">
-        <div *ngIf="f.name.invalid && (f.name.touched || submitted)" class="form-error">
-          <div *ngIf="f.name.errors.required">A name is required.</div>
-          <div *ngIf="f.name.errors.maxlength">The name is too long.</div>
+      <div formGroupName="profile">
+        <div class="form-element">
+          <label for="name">Name</label>
+          <input type="text" id="name" formControlName="name"
+                autocomplete="off" spellcheck="false">
+          <div *ngIf="name.invalid && (name.touched || submitted)" class="form-error">
+            <div *ngIf="name.errors.required">A name is required.</div>
+            <div *ngIf="name.errors.maxlength">The name is too long.</div>
+          </div>
         </div>
-      </div>
-      <div class="form-element">
-        <label for="email">Email address</label>
-        <input type="text" id="email" formControlName="email"
-               autocomplete="off" spellcheck="false">
-        <div *ngIf="f.email.invalid && (f.email.touched || submitted)" class="form-error">
-          <div *ngIf="f.email.errors.required">An email is required.</div>
-          <div *ngIf="f.email.errors.email">The email must be valid.</div>
+        <div class="form-element">
+          <label for="email">Email address</label>
+          <input type="text" id="email" formControlName="email"
+                autocomplete="off" spellcheck="false">
+          <div *ngIf="email.invalid && (email.touched || submitted)" class="form-error">
+            <div *ngIf="email.errors.required">An email is required.</div>
+            <div *ngIf="email.errors.email">The email must be valid.</div>
+          </div>
         </div>
       </div>
       <div class="form-element">
@@ -36,10 +38,10 @@
             {{showPassword ? 'hide' : 'show'}}
           </button>
         </div>
-        <div *ngIf="f.password.invalid && (f.password.touched || submitted)" class="form-error">
-          <div *ngIf="f.password.errors.required">A password is required.</div>
-          <div *ngIf="f.password.errors.minlength || f.password.errors.maxlength">The password must be between 8 and 30 characters long.</div>
-          <div *ngIf="f.password.errors.pattern">The password cannot contain spaces.</div>
+        <div *ngIf="password.invalid && (password.touched || submitted)" class="form-error">
+          <div *ngIf="password.errors.required">A password is required.</div>
+          <div *ngIf="password.errors.minlength || password.errors.maxlength">The password must be between 8 and 30 characters long.</div>
+          <div *ngIf="password.errors.pattern">The password cannot contain spaces.</div>
         </div>
       </div>
       <div class="form-element form-actions">

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 
 import { JwtHelperService } from '@auth0/angular-jwt';
 
@@ -46,19 +46,14 @@ export class AuthService {
   logIn(email: string, password: string): Observable<any> {
     return this.http.post(`${environment.apiUrl}/auth/login`,
                           { email: email, password: password})
-                    .pipe(map(response => {
-                      localStorage.setItem('token', response['token']);
-                      this.extractUserFromPayload();
+                    .pipe(tap(response => {
+                      this.processNewToken(response['token']);
                     }));
   }
 
-  extractUserFromPayload() {
-    this._loggedInUser = this._jwtHelper.decodeToken(this.getToken())['profile'] as User;
-    this._loggedInUser.gravatar = this.gravatar();
-  }
-
-  private gravatar(): string {
-    return `https://www.gravatar.com/avatar/${this._loggedInUser.hashedEmail}`;
+  processNewToken(token: string) {
+    this.storeToken(token);
+    this.extractUserFromPayload();
   }
 
   getToken() {
@@ -67,5 +62,19 @@ export class AuthService {
 
   clearToken() {
     localStorage.removeItem('token');
+  }
+
+  private extractUserFromPayload() {
+    this._loggedInUser = { profile: this._jwtHelper.decodeToken(this.getToken())['profile'] } as User;
+    this._loggedInUser.gravatar = this.gravatar();
+    console.log(this._loggedInUser);
+  }
+
+  private gravatar(): string {
+    return `https://www.gravatar.com/avatar/${this._loggedInUser.profile.hashedEmail}`;
+  }
+
+  private storeToken(token: string) {
+    localStorage.setItem('token', token);
   }
 }

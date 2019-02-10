@@ -30,10 +30,12 @@ export class SignUpComponent implements OnInit {
 
   ngOnInit() {
     this.signupForm = this.formBuilder.group({
-      'name': ['', [Validators.required,
-                   Validators.maxLength(50)]],
-      'email': ['', [Validators.required,
-                    Validators.email]],
+      'profile': this.formBuilder.group({
+        'name': ['', [Validators.required,
+                      Validators.maxLength(50)]],
+        'email': ['', [Validators.required,
+                       Validators.email]]
+      }),
       'password': ['', [Validators.required,
                        Validators.minLength(8),
                        Validators.maxLength(30),
@@ -41,8 +43,16 @@ export class SignUpComponent implements OnInit {
     });
   }
 
-  get f() {
-    return this.signupForm.controls;
+  get name() {
+    return this.signupForm.get('profile.name');
+  }
+
+  get email() {
+    return this.signupForm.get('profile.email');
+  }
+
+  get password() {
+    return this.signupForm.get('password');
   }
 
   onSubmit() {
@@ -61,9 +71,9 @@ export class SignUpComponent implements OnInit {
                       this.toastService.success('Account created! You may now log in.');
                     },
                     error => {
-                      // Only kind of http errors handled by the component
-                      // Client-side validation was not thorough enough,
-                      // or server introduced new constraints
+                      // Only kind of http errors handled by the component.
+                      // Happens in case client-side validation was not thorough
+                      // enough or API introduced new constraints.
                       if (error instanceof ValidationError) {
                         this.serverValidationError = error.message;
                       }

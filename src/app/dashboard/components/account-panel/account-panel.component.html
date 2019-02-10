@@ -1,11 +1,11 @@
 <div class="wrapper">
   <div class="account" (click)="showDropdown()">
     <div class="avatar-wrapper"><img src="{{user.gravatar}}?s=30&d=blank"></div>
-    {{user.email}}
+    {{user.profile.email}}
     <div class="dropdown-icon"></div>
   </div>
   <ul *ngIf="dropdownVisible">
-    <li><span>{{user.name}}</span></li>
+    <li><span>{{user.profile.name}}</span></li>
     <li><hr></li>
     <li><a routerLink="/profile">Profile</a></li>
     <li><a routerLink="/preferences">Preferences</a></li>

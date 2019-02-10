@@ -16,6 +16,8 @@ export class UserService {
 
   create(user: User): Observable<User> {
     return this.http.post(`${environment.apiUrl}/users`, user)
-                    .pipe(map(response => response['profile']));
+                    .pipe(map(response => {
+                      return { profile: response['profile'] } as User;
+                    }));
   }
 }
