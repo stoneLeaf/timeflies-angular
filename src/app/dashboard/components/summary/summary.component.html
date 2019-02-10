@@ -1,5 +1,5 @@
-<div class="notice">
-  <div class="icon-close" (click)="click()"></div>
+<div class="notice" *ngIf="showNotice">
+  <div class="icon-close" (click)="closeNotice()"></div>
   <h2>Welcome to your dashboard!</h2>
   <p>This entry point displays your main statistics and projects at a glance.</p>
 </div>
