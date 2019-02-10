@@ -1,39 +1,14 @@
 <section>
   <h1>Edit project</h1>
-  <form [formGroup]="projectForm" *ngIf="(project$ | async) as project; else loading"
-        (ngSubmit)="onSubmit(project)">
-    <div *ngIf="serverValidationError" class="form-element">
-      <div class="form-error">
-        {{serverValidationError}}
-      </div>
-    </div>
-    <div class="form-element">
-      <label for="name">Name</label>
-      <input type="text" id="name" formControlName="name"
-              autocomplete="off" size="100">
-      <div *ngIf="f.name.invalid && (f.name.touched || submitted)" class="form-error">
-          <div *ngIf="f.name.errors.required">A project name is required.</div>
-          <div *ngIf="f.name.errors.minlength || f.name.errors.minlength">
-            The name must be between 2 and 100 characters long.
-          </div>
-      </div>
-    </div>
-    <div class="form-element">
-      <label for="email">Description (optional)</label>
-      <input type="text" id="description" formControlName="description"
-             autocomplete="off">
-      <div *ngIf="f.description.invalid && (f.description.touched || submitted)" class="form-error">
-        <div *ngIf="f.description.errors.maxlength">The description is too long.</div>
-      </div>
-    </div>
-    <div class="form-element form-actions">
-      <button [disabled]="waiting" class="button-primary">Save</button>
-    </div>
-  </form>
+  <app-project-form *ngIf="(project$ | async) as project; else loading"
+                    [project]="project"
+                    submitButtonLabel="Save"
+                    (submission)="onSubmit($event)"
+                    [serverReturns$]="serverReturns$.asObservable()">
+  </app-project-form>
   <ng-template #loading>
     <div class="flex-horizontal-center">
       <div class="spinner"></div>
     </div>
   </ng-template>
 </section>
-
