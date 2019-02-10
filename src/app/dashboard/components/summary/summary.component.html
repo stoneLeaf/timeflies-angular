@@ -26,5 +26,30 @@
 </section>
 <section>
   <h3>Your top projects</h3>
-  You don't have any project yet. Why don't you <a routerLink="/projects/new">create the first one</a> now?
+  <div *ngIf="topProjects$ | async as topProjects; else loadingTopProjects">
+    <div class="top-projects">
+      <div *ngFor="let topProject of topProjects; let i = index">
+        <a routerLink="/projects/{{topProject.id}}">
+          <div class="top-project">
+            <div class="project-title">
+              {{i + 1}}. <a>{{topProject.name}}</a>
+            </div>
+            <div class="project-duration">{{topProject.totalTime | duration}}</div>
+          </div>
+        </a>
+      </div>
+      <div *ngFor="let foo of topProjectsStubs" class="top-project greyed">
+        <div class="project-title">
+          ...
+        </div>
+        <div class="project-duration greyed">{{0 | duration}}</div>
+      </div>
+    </div>
+    <div *ngIf="topProjects.length === 0">
+      You don't have any project yet. Why don't you <a routerLink="/projects/new">create the first one</a> now?
+    </div>
+  </div>
+  <ng-template #loadingTopProjects>
+    <div class="flex-horizontal-center"><div class="spinner"></div></div>
+  </ng-template>
 </section>

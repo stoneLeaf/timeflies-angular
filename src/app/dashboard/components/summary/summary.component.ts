@@ -1,13 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 
 import { Observable, of } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { switchMap, tap } from 'rxjs/operators';
 
 import { StatService } from 'src/app/services/stat.service';
 import { UserService } from 'src/app/services/user.service';
 import { AuthService } from 'src/app/services/auth.service';
+import { ProjectService } from 'src/app/services/project.service';
 
 import { ProjectStat } from 'src/app/shared/models/project-stat.model';
+import { Project } from 'src/app/shared/models/project.model';
 
 @Component({
   selector: 'app-summary',
@@ -15,11 +17,16 @@ import { ProjectStat } from 'src/app/shared/models/project-stat.model';
   styleUrls: ['./summary.component.scss']
 })
 export class SummaryComponent implements OnInit {
-  last7DaysData$: Observable<any[]>;
   showNotice: boolean;
+
+  last7DaysData$: Observable<any[]>;
+
+  topProjects$: Observable<Project[]>;
+  topProjectsStubs: any[];
 
   constructor(private authService: AuthService,
               private userService: UserService,
+              private projectService: ProjectService,
               private statService: StatService) { }
 
   ngOnInit() {
@@ -36,15 +43,20 @@ export class SummaryComponent implements OnInit {
         }
         return of(single);
     }));
-  }
 
-  formatYAxisTick(hour: number) {
-    return `${hour}h`;
+    this.topProjects$ = this.projectService.getAll({ limit: 3, sort: 'totalTime', order: 'desc' })
+                          .pipe(tap(projects => {
+                            this.topProjectsStubs = Array(3 - projects.length);
+                          }));
   }
 
   closeNotice() {
     this.showNotice = false;
     this.authService.loggedInUser.profile.preferences.seenDashboardNotice = true;
     this.userService.update(this.authService.loggedInUser).subscribe();
+  }
+
+  formatYAxisTick(hour: number) {
+    return `${hour}h`;
   }
 }

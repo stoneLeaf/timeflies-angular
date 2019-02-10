@@ -1,10 +1,54 @@
 ::ng-deep svg.ngx-charts { 
-    float: none !important;
+  float: none !important;
 }
 
 .loading-graph {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 160px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 160px;
+}
+
+.top-projects {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 10px;
+  a:hover {
+    text-decoration: none;
   }
+}
+
+.top-project {
+  border: 1px solid lightgrey;
+  border-radius: 2px;
+  min-width: 200px;
+  max-width: 250px;
+  padding: 10px;
+  margin: 10px;
+
+  &:hover {
+    background-color: rgb(247, 247, 247);
+    text-decoration: none;
+  }
+}
+
+.greyed {
+  color: lightgrey !important;
+  border-color: rgb(226, 226, 226);
+  &:hover {
+    background-color: white;
+  }
+}
+
+.project-title {
+  font-size: 110%;
+  margin-bottom: 10px;
+}
+
+.project-duration {
+  color: grey;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
