@@ -1,6 +1,6 @@
 # timeflies-angular
 
-![Work in progress](https://img.shields.io/badge/work-in%20progress-red.svg)
+![Work in progress](https://img.shields.io/badge/work-in%20progress-red.svg) [![Build Status](https://travis-ci.com/stoneLeaf/timeflies-angular.svg?branch=master)](https://travis-ci.com/stoneLeaf/timeflies-angular)
 
 Timeflies is a time-tracking [SaaS](https://en.wikipedia.org/wiki/Software_as_a_service) built upon a full JavaScript stack. This repository contains an Angular front-end client meant to work with [Timeflies's Node.js back-end](https://github.com/stoneLeaf/timeflies-backend).
 

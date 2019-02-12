@@ -1,0 +1,36 @@
+language: node_js
+node_js:
+  - "8"
+
+dist: xenial
+
+branches:
+  only:
+  - master
+
+cache:
+  directories:
+    - node_modules
+
+addons:
+  apt:
+    sources:
+      - google-chrome
+    packages:
+      - google-chrome-stable
+
+before_script:
+  - npm install -g @angular/cli
+
+script:
+  - npm run lint
+  - npm run test-headless
+  - npm run build:gh-pages
+
+deploy:
+  provider: pages
+  skip_cleanup: true
+  github_token: $GITHUB_TOKEN
+  local_dir: dist/timeflies-angular
+  on:
+    branch: master
