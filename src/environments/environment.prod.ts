@@ -1,3 +1,5 @@
 export const environment = {
-  production: true
+  production: true,
+  // Should not end with a trailing slash
+  apiUrl: '%BACKEND_URI%'
 };
