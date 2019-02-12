@@ -4,6 +4,10 @@
 
 Timeflies is a time-tracking [SaaS](https://en.wikipedia.org/wiki/Software_as_a_service) built upon a full JavaScript stack. This repository contains an Angular front-end client meant to work with [Timeflies's Node.js back-end](https://github.com/stoneLeaf/timeflies-backend).
 
+[**Live demo on GitHub Pages**](https://stoneleaf.github.io/timeflies-angular/)
+
+> Please note that the demo's back-end is hosted on a free Heroku dyno. Therefore, a few seconds are necessary before it fully wakes up and handles the first request.
+
 ## Table of contents
 
 - [Setup](#setup)
