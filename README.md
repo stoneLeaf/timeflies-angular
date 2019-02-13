@@ -38,6 +38,7 @@ In the same fashion as with my [coding journey](https://github.com/stoneLeaf/cod
 9. [Taking shape](#taking-shape)
 10. [Hitting REC](#hitting-rec)
 11. [Off the charts](#off-the-charts)
+12. [Back and forth](#back-and-forth)
 
 ### Tour of Cats
 
