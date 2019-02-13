@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 import { Project } from 'src/app/shared/models/project.model';
 
@@ -15,16 +16,18 @@ import { Project } from 'src/app/shared/models/project.model';
 })
 export class ProjectFormComponent implements OnInit {
   /**
-   * Project used to get initial input values.
+   * The Project upon which the form revolves.
    */
   @Input() project: Project;
+
   /**
-   * When received, the form quits its waiting state and displays a potential
-   * error message.
+   * When received, the form quits its waiting state and displays the potential
+   * error message passed as a string.
    *
    * Can be created as a Subject.
    */
   @Input() serverReturns$: Observable<string>;
+
   /**
    * Form submit button label.
    */
@@ -36,9 +39,10 @@ export class ProjectFormComponent implements OnInit {
   @Output() submission = new EventEmitter<Project>();
 
   projectForm: FormGroup;
-  serverError = '';
   waiting = false;
   submitted = false;
+
+  serverReturn$: Observable<string>;
 
   constructor(private formBuilder: FormBuilder) { }
 
@@ -50,12 +54,10 @@ export class ProjectFormComponent implements OnInit {
       'description': [this.project.description, Validators.maxLength(255)]
     });
 
-    this.serverReturns$.subscribe(errorMessage => {
-      if (errorMessage) {
-        this.serverError = errorMessage;
-      }
-      this.waiting = false;
-    });
+    // Workaround to have the right reference given to the template async pipe
+    this.serverReturn$ = this.serverReturns$.pipe(tap(_ => {
+                                            this.waiting = false;
+                                          }));
   }
 
   get f() {

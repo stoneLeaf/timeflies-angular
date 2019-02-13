@@ -1,5 +1,5 @@
 <form [formGroup]="projectForm" (ngSubmit)="onSubmit()">
-  <div *ngIf="serverError" class="form-element">
+  <div *ngIf="serverReturn$ | async as serverError" class="form-element">
     <div class="form-error">
       {{serverError}}
     </div>
