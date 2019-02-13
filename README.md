@@ -133,6 +133,22 @@ Instead, I did some extensive work on the back-end. Firstly, I added a total cou
 
 With that data, I could finally add dynamic charts to my layout. After some research and considering at first [ng2-charts](https://github.com/valor-software/ng2-charts), I ended up implementing [ngx-charts](https://github.com/swimlane/ngx-charts). To my delight, I was quickly able to configure its directive and easily shaped my data to fit its input. The application dashboard front page was now featuring a nice chart of the past 7 days activities. And the project page was displaying a chart of its past 30 days. Theses additions were really a *game changer* in terms of both usefulness and appearance.
 
+### Back and forth
+
+I encountered an interesting challenge while refactoring components. The project creation and project edition components both contained a very similar form in which only the submit button label differed. That was an obvious invitation to create a shared component so that if I were, for instance, to add a field to the project model, I would only have to add it in one place.
+
+The extraction of the form and logic was really easy. As [inputs](https://angular.io/api/core/Input), I firstly had the project, either blank for creation or filled for edition, which would be queried for initial values. I also had the submit button label, a simple string. As output, after passing client-side validation, the component would emit the new project to its parent component through an [EventEmitter](https://angular.io/api/core/EventEmitter).
+
+But that was not enough, as I also wanted the form to handle the case of a potential server-side error. That meant I had to figure out a way to transmit back asynchronously a potential message to the child form component and instruct it to allow a new submission. The solution I came up with was to pass, as a third input, an observable the child component would subscribe to in order to get the potential message and switch back from its waiting state.
+
+To sum up the data flow:
+
+- the model goes down from parent to child as an Input,
+- it goes back up as an event when submitted by the user and cleared by client-side validation ;
+- and then the parent can potentially ask the child for a new submission if a server-side error came up, through an asynchronous stream (observable).
+
+It could have been done in other ways, but I thought this one was satisfying and furthered my practice of reactive programming.
+
 ## License
 
 The social icons are from [Simple Icons](https://github.com/simple-icons/simple-icons) and under [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/).
