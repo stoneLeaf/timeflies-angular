@@ -36,6 +36,8 @@ In the same fashion as with my [coding journey](https://github.com/stoneLeaf/cod
 7. [The matcher trick](#the-matcher-trick)
 8. [Fixing redirect from guard](#fixing-redirect-from-guard)
 9. [Taking shape](#taking-shape)
+10. [Hitting REC](#hitting-rec)
+11. [Off the charts](#off-the-charts)
 
 ### Tour of Cats
 
@@ -107,9 +109,29 @@ I learned *a lot* in the process about both [VS Code debugging tools](https://co
 
 At that point, I had enough in place to be able to finally focus on component creation. It felt great to see my application getting its features implemented one-by-one. A good amount of work went into the layout design. I wanted the UI to look good and be well structured. My daily practice of CSS was really paying off as I was less and less prone to the trial and error approach and was able to write styles with more confidence.
 
-One key aspect of component design was finding a way to properly handle the flow of data between components. Apart from the use of services, one way to get data to a child component wasthe [Input decorator](https://angular.io/api/core/Input), and to the parent component, an [EventEmitter](https://angular.io/api/core/EventEmitter). Another key aspect was the proper handling of observables. For instance, to prevent memory leaks, it is good practice to unsubscribe on component destruction. That can become quite cumbersome when you have multiple subscriptions in a single component. With that in mind, I chose to make use of Angular's [async pipe](https://angular.io/api/common/AsyncPipe) as much as possible as it handles it automatically.
+One key aspect of component design was finding a way to properly handle the flow of data between components. Apart from the use of services, one way to get data to a child component was the [Input decorator](https://angular.io/api/core/Input), and to the parent component, an [EventEmitter](https://angular.io/api/core/EventEmitter). Another key aspect was the proper handling of observables. For instance, to prevent memory leaks, it is good practice to unsubscribe on component destruction. That can become quite cumbersome when you have multiple subscriptions in a single component. With that in mind, I chose to make use of Angular's [async pipe](https://angular.io/api/common/AsyncPipe) as much as possible as it handles it automatically.
 
 Another feature I wanted to implement was a toast notification service. It was important to give feedback to user actions, and that was one way to do it. The service was just a single point of entry for broadcasting messages. Most of the logic came in a shared component which subscribed to the service stream. I chose to implement a queue system to ensure each message had a controllable lifetime and also added the option to make them either auto-dismissible or requiring a user action depending on the significance of the message.
+
+### Hitting REC
+
+Came the time to implement the heart of the application, the handling of time activities. It was more complex, as I had experienced in the back-end, because it meant handling dates and durations. Early on in this project, the idea came up of a button in the navigation bar that would transform to a timer when activated. I had detailed sketches of it and was eager to start the implementation.
+
+After setting up the activity model and its dedicated service, I started the creation of the aforementioned component. When there was no running activity it displayed a Record button. On click, it showed a dropdown menu filled with the asynchronously loaded project list. Finally, when the recording started, it gracefully faded into a boxed timer along with a Stop button. I was quite happy with the end result, it really served its purpose as a quick and eye-catching way to handle the activities start and stop.
+
+Working with time intervals and durations, I also had to find a way to make them human readable in my templates. That was my excuse to experiment custom pipes. I must say it was really straightforward to implement: a simple class featuring a transform method with the input value and optional arguments, and returning the transformed value. I ended up creating three pipes for that purpose:
+
+- one for displaying the timer value in the navigation bar,
+- another one to put in words the time elapsed since a date (e.g. *2 days ago*),
+- and the last simply to format durations.
+
+### Off the charts
+
+The application was finally sporting the bare minimum logic it was advertising. But it became suddenly obvious something major was missing: statistics. To that point, I only had a bleak list of activities on each project page. One way to do it could have been to fetch all the activities in the desired interval and compute it into statistics. But it could have been potentially very expensive, especially since I didn't have any caching implemented. For instance, to get the total time spent on a specific project, I would have had to fetch all activities and make a sum. Imagine that for 10 different projects on a single page. That was not acceptable.
+
+Instead, I did some extensive work on the back-end. Firstly, I added a total counter to the project model that was incremented/decremented on activity creation/deletion. Furthermore, I created a whole new endpoint dedicated to project statistics. Given a start day and an end day, it delivered an array of daily statistics either for a specific project or for all of them as a whole. The underlying logic proved to be quite challenging at some points and I ended up using [moment-js range add-on](https://github.com/rotaready/moment-range) to simplify the algorithm.
+
+With that data, I could finally add dynamic charts to my layout. After some research and considering at first [ng2-charts](https://github.com/valor-software/ng2-charts), I ended up implementing [ngx-charts](https://github.com/swimlane/ngx-charts). To my delight, I was quickly able to configure its directive and easily shaped my data to fit its input. The application dashboard front page was now featuring a nice chart of the past 7 days activities. And the project page was displaying a chart of its past 30 days. Theses additions were really a *game changer* in terms of both usefulness and appearance.
 
 ## License
 
