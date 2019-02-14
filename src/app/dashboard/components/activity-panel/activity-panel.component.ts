@@ -22,6 +22,8 @@ export class ActivityPanelComponent implements OnInit {
   dropdownVisible = false;
   ignoreClick = false;
 
+  waiting = false;
+
   constructor(private activityService: ActivityService,
               private projectService: ProjectService) { }
 
@@ -45,14 +47,22 @@ export class ActivityPanelComponent implements OnInit {
   }
 
   recordIn(project: Project) {
+    this.waiting = true;
     const activity = new Activity();
     activity.startDate = new Date();
-    this.activityService.createInProject(activity, project).subscribe();
+    this.activityService.createInProject(activity, project)
+                        .subscribe(_ => {
+                            this.waiting = false;
+                          });
   }
 
   stop(activity: Activity) {
+    this.waiting = true;
     activity.endDate = new Date();
-    this.activityService.update(activity).subscribe();
+    this.activityService.update(activity)
+                        .subscribe(_ => {
+                          this.waiting = false;
+                        });
   }
 
   @HostListener('click', ['$event.target'])
@@ -65,7 +75,6 @@ export class ActivityPanelComponent implements OnInit {
 
   @HostListener('document:click')
   onDocumentClick() {
-
     if (this.ignoreClick) {
     // Click on the dropdown menu, so we ignore it and don't hide it
       this.ignoreClick = false;

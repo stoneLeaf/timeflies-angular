@@ -1,11 +1,13 @@
 <div>
   <div *ngIf="(runningActivity$ | async) as activity; else record" class="wrapper">
     <div class="record-infos">Recording {{(timer$ | async) | timerDisplay}}</div>
-    <button class="stop-button" (click)="stop(activity)">Stop</button>
+    <button class="stop-button" (click)="stop(activity)" [disabled]="waiting">Stop</button>
   </div>
   <ng-template #record>
     <div class="wrapper">
-      <button class="button-primary" (click)="showDropdown()">Record &#9632;</button>
+      <button class="button-primary" (click)="showDropdown()" [disabled]="waiting">
+        Record &#9632;
+      </button>
     </div>
     <ul *ngIf="dropdownVisible">
       <li><span>Choose a project</span></li>
