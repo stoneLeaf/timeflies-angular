@@ -19,11 +19,10 @@ export class ActivityPanelComponent implements OnInit {
   timer$: Observable<number>;
   projects$: Observable<Project[]>;
 
-  projectsVisible = false;
-  clickInside = false;
+  dropdownVisible = false;
+  ignoreClick = false;
 
-  constructor(private router: Router,
-              private activityService: ActivityService,
+  constructor(private activityService: ActivityService,
               private projectService: ProjectService) { }
 
   ngOnInit() {
@@ -41,20 +40,14 @@ export class ActivityPanelComponent implements OnInit {
     this.projects$ = this.projectService.getAll();
   }
 
-  showProjects() {
-    this.projectsVisible = true;
-  }
-
-  newProject() {
-    this.projectsVisible = false;
-    this.router.navigateByUrl('/projects/new');
+  showDropdown() {
+    this.dropdownVisible = true;
   }
 
   recordIn(project: Project) {
     const activity = new Activity();
     activity.startDate = new Date();
     this.activityService.createInProject(activity, project).subscribe();
-    this.projectsVisible = false;
   }
 
   stop(activity: Activity) {
@@ -62,17 +55,23 @@ export class ActivityPanelComponent implements OnInit {
     this.activityService.update(activity).subscribe();
   }
 
-  @HostListener('click')
-  onClickInside() {
-    this.clickInside = true;
+  @HostListener('click', ['$event.target'])
+  onClickInside(target) {
+    // Only ignore click if not on an anchor tag
+    if (target.tagName.toLowerCase() !== 'a') {
+      this.ignoreClick = true;
+    }
   }
 
   @HostListener('document:click')
   onDocumentClick() {
-    if (this.clickInside) {
-      this.clickInside = false;
+
+    if (this.ignoreClick) {
+    // Click on the dropdown menu, so we ignore it and don't hide it
+      this.ignoreClick = false;
       return;
     }
-    this.projectsVisible = false;
+    // Click outside the dropdown or on a link, so we hide the dropdown
+    this.dropdownVisible = false;
   }
 }
