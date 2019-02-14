@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { Observable, BehaviorSubject } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 
 import { environment } from 'src/environments/environment';
 import { Activity } from '../shared/models/activity.model';
@@ -70,21 +70,23 @@ export class ActivityService {
   }
 
   update(activity: Activity): Observable<Activity> {
-    const currentActivity = this._current$.getValue();
-    if (currentActivity && currentActivity.id === activity.id && activity.endDate) {
-      this._current$.next(undefined);
-    }
     return this.http.patch(`${environment.apiUrl}/activities/${activity.id}`, activity)
                     .pipe(map(response => {
+                      const currentActivity = this._current$.getValue();
+                      if (currentActivity && currentActivity.id === activity.id && activity.endDate) {
+                        this._current$.next(undefined);
+                      }
                       return response['activity'] as Activity;
                     }));
   }
 
   delete(activity: Activity): Observable<any> {
-    if (this._current$.getValue() && this._current$.getValue().id === activity.id) {
-      this._current$.next(undefined);
-    }
-    return this.http.delete(`${environment.apiUrl}/activities/${activity.id}`);
+    return this.http.delete(`${environment.apiUrl}/activities/${activity.id}`)
+              .pipe(tap(_ => {
+                if (this._current$.getValue() && this._current$.getValue().id === activity.id) {
+                  this._current$.next(undefined);
+                }
+              }));
   }
 
   getLastFor(project: Project): Observable<Activity> {
