@@ -1,8 +1,7 @@
 import { Component, OnInit, HostListener } from '@angular/core';
-import { Router } from '@angular/router';
 
 import { Observable, timer } from 'rxjs';
-import { tap, map } from 'rxjs/operators';
+import { tap, map, finalize } from 'rxjs/operators';
 
 import { ActivityService } from 'src/app/services/activity.service';
 import { Activity } from 'src/app/shared/models/activity.model';
@@ -51,18 +50,20 @@ export class ActivityPanelComponent implements OnInit {
     const activity = new Activity();
     activity.startDate = new Date();
     this.activityService.createInProject(activity, project)
-                        .subscribe(_ => {
-                            this.waiting = false;
-                          });
+                        .pipe(finalize(() => {
+                          this.waiting = false;
+                        }))
+                        .subscribe();
   }
 
   stop(activity: Activity) {
     this.waiting = true;
     activity.endDate = new Date();
     this.activityService.update(activity)
-                        .subscribe(_ => {
+                        .pipe(finalize(() => {
                           this.waiting = false;
-                        });
+                        }))
+                        .subscribe();
   }
 
   @HostListener('click', ['$event.target'])
