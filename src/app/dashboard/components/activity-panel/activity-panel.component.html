@@ -1,7 +1,7 @@
 <div>
   <div *ngIf="(runningActivity$ | async) as activity; else record" class="wrapper">
     <div class="record-infos">Recording {{(timer$ | async) | timerDisplay}}</div>
-    <button class="stop-button" (click)="stop(activity)" [disabled]="waiting">Stop</button>
+    <button class="button-primary stop-button" (click)="stop(activity)" [disabled]="waiting">Stop</button>
   </div>
   <ng-template #record>
     <div class="wrapper">
