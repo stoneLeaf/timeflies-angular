@@ -1,5 +1,12 @@
 @import 'variables';
 
+a {
+  cursor: pointer;
+  &:hover {
+    text-decoration: none;
+  }
+}
+
 .wrapper {
   display: flex;
   border: 2px solid $primary-color;
