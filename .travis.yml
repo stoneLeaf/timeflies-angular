@@ -27,6 +27,9 @@ script:
   - npm run test-headless
   - npm run build:gh-pages
 
+before_deploy:
+  - cp dist/timeflies-angular/index.html dist/timeflies-angular/404.html
+
 deploy:
   provider: pages
   skip_cleanup: true
