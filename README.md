@@ -39,6 +39,7 @@ In the same fashion as with my [coding journey](https://github.com/stoneLeaf/cod
 10. [Hitting REC](#hitting-rec)
 11. [Off the charts](#off-the-charts)
 12. [Back and forth](#back-and-forth)
+13. [Continuous deployment](#continuous-deployment)
 
 ### Tour of Cats
 
@@ -149,6 +150,16 @@ To sum up the data flow:
 - and then the parent can potentially ask the child for a new submission if a server-side error came up, through an asynchronous stream (observable).
 
 It could have been done in other ways, but I thought this one was satisfying and furthered my practice of reactive programming.
+
+### Continuous deployment
+
+After deploying a back-end instance on Heroku, the next step was to find a host for this Angular client. Without much hesitation, I chose [GitHub Pages](https://pages.github.com/). This required a few build adjustments as Pages for a repository are necessarily accessible under a sub path. Specifically, the [base href](https://angular.io/guide/deployment#the-base-tag) has to be set accordingly in order for the router to work and URLs to be properly resolved. But as I soon discovered, [like others](https://github.com/angular/angular-cli/issues/6730), that was far from enough. After a few unsuccessful attempts, and various tweaks, I finally managed to have all the assets accessible.
+
+But I found it cumbersome and somewhat arbitrary to manually build and push to the GitHub Pages branch every time I deemed necessary. There were [great tools](https://github.com/angular-schule/angular-cli-ghpages) available to automatize that step but I wanted to go further. To that prospect, [Travis CI](https://travis-ci.com/) came to mind as I had already set it up on the back-end for continuous testing. But using it for build and deployment meant a more advanced configuration.
+
+The challenge which quickly arose was about the storage and retrieval of the *production* back-end API URL. It was not an option to hard-code it in an Angular's environment file as it certainly did not belong to the code repository. For a back-end, it is quite simple as the application can access environment variables. But for a front-end client being executed in the browser, it had to be done differently. After some research, I found an elegant solution in an [Angular issue thread](https://github.com/angular/angular-cli/issues/4318#issuecomment-318359461).
+
+Quite simply, before building the client, the API URL is retrieved from the build server environment variables, and injected in the Angular project environment file using [replace](https://www.npmjs.com/package/replace). As a result, the back-end API URL is only stored in Travis CI's environment variables. That was exactly what I had in mind and was quite pleased with the outcome. As I pushed to `master`, the code was, in that order, checked by the linter, tested in Headless Chrome, built specifically for GitHub Pages and then finally deployed.
 
 ## License
 
